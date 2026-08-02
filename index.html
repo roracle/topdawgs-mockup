@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0a1626">
+<link rel="manifest" href="manifest.json">
+<title>TopDawgs — App Mockup</title>
+<style>
+  :root{
+    --bg-deep:#0a1626;
+    --bg-panel:#0f2138;
+    --bg-panel-2:#132a45;
+    --bg-elevated:#173252;
+    --line:#22405f;
+    --cyan:#5fe3ee;
+    --cyan-dim:#3aa9b8;
+    --cyan-deep:#1c6f80;
+    --sky:#8fd8ea;
+    --ring-blue:#2f6b93;
+    --text:#eaf6fa;
+    --text-dim:#9db7c9;
+    --text-faint:#5f7d92;
+    --amber:#f2b25c;
+    --danger:#e4667a;
+    --radius:18px;
+    --font-display: 'Rajdhani','Segoe UI',sans-serif;
+    --font-body: 'Segoe UI', system-ui, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#05090f;color:var(--text);font-family:var(--font-body);}
+  .stage{
+    min-height:100vh; width:100%;
+    display:flex; align-items:flex-start; justify-content:center; gap:28px;
+    padding:36px 16px; flex-wrap:wrap;
+  }
+  .side-note{
+    max-width:240px; font-size:12.5px; color:var(--text-dim); line-height:1.6; padding-top:40px;
+  }
+  .side-note h3{color:var(--sky); font-family:var(--font-display); letter-spacing:0.06em; font-size:15px; margin:0 0 8px;}
+  .side-note code{color:var(--cyan); background:transparent;}
+
+  /* ---------- PHONE FRAME ---------- */
+  .phone{
+    width:375px; height:812px;
+    background:#000; border-radius:52px;
+    padding:12px; box-shadow:0 30px 80px rgba(0,0,0,0.6), 0 0 0 2px #1a1a1a inset;
+    position:relative; flex-shrink:0;
+  }
+  .screen{
+    width:100%; height:100%; border-radius:40px; overflow:hidden;
+    background:var(--bg-deep); position:relative; display:flex; flex-direction:column;
+    background-image:
+      radial-gradient(circle at 15% 0%, rgba(95,227,238,0.10), transparent 40%),
+      radial-gradient(circle at 90% 100%, rgba(47,107,147,0.18), transparent 45%);
+  }
+  .notch{
+    position:absolute; top:0; left:50%; transform:translateX(-50%);
+    width:120px; height:26px; background:#000; border-radius:0 0 16px 16px; z-index:50;
+  }
+  .status-row{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:14px 22px 4px; font-size:12px; font-weight:600; color:var(--text); z-index:20; position:relative;
+  }
+
+  /* ---------- TOP ACTION BAR ---------- */
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:6px 14px 10px; position:relative; z-index:30; min-height:38px;
+  }
+  .icon-btn{
+    width:38px; height:38px; border-radius:50%;
+    background:rgba(15,33,56,0.7); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    backdrop-filter: blur(6px); position:relative; flex-shrink:0;
+  }
+  .icon-btn svg{width:20px;height:20px;}
+  .topbar-left{display:flex; gap:8px; align-items:center;}
+  .topbar-right{display:flex; gap:8px; align-items:center;}
+  .create-menu{left:auto; right:14px; width:140px;}
+  .notif-panel{left:56px; width:235px;}
+  .avatar-btn{
+    width:38px;height:38px;border-radius:50%; padding:0; overflow:hidden;
+    background:linear-gradient(145deg,var(--cyan-deep),var(--ring-blue));
+    border:1.5px solid var(--cyan-dim); display:flex; align-items:center; justify-content:center;
+    cursor:pointer; font-family:var(--font-display); font-weight:700; color:var(--cyan); font-size:14px;
+  }
+  .nav-dot{
+    position:absolute; width:8px; height:8px; border-radius:50%;
+    background:var(--danger); border:1.5px solid var(--bg-deep); display:none;
+  }
+  .dot-inline{width:7px; height:7px; border-radius:50%; background:var(--danger); flex-shrink:0; display:inline-block;}
+  .subsection-pill{
+    background:#081320; border:1px solid var(--line); border-radius:20px;
+    padding:8px 14px; display:flex; align-items:center; gap:6px; cursor:pointer;
+    font-size:12.5px; font-weight:600; color:var(--sky); letter-spacing:0.02em;
+    max-width:190px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .subsection-pill svg{width:12px;height:12px;flex-shrink:0;}
+
+  /* profile top bar */
+  .profile-bar{display:none; align-items:center; justify-content:space-between; width:100%;}
+  .profile-bar.show{display:flex;}
+
+  /* ---------- CONTENT ---------- */
+  .content{
+    flex:1; overflow-y:auto; padding:6px 0 90px; position:relative; z-index:5;
+    scrollbar-width:none;
+  }
+  .content::-webkit-scrollbar{display:none;}
+  .section-pad{padding:0 16px;}
+
+  h1.page-title{
+    font-family:var(--font-display); font-size:22px; letter-spacing:0.03em; margin:6px 0 2px; color:var(--text);
+  }
+  .page-sub{font-size:12px; color:var(--text-faint); margin:0 0 14px;}
+
+  /* ---------- BOTTOM NAV ---------- */
+  .bottomnav{
+    position:absolute; bottom:12px; left:12px; right:12px; height:66px;
+    background:rgba(8,17,29,0.92); border:1px solid var(--line); border-radius:26px;
+    display:flex; align-items:center; justify-content:space-around;
+    backdrop-filter: blur(10px); z-index:40; box-shadow:0 8px 24px rgba(0,0,0,0.45);
+  }
+  .navitem{
+    display:flex; flex-direction:column; align-items:center; gap:3px; cursor:pointer;
+    width:70px; padding:6px 0; border-radius:16px; transition:background .15s;
+  }
+  .navitem .icon-wrap{position:relative; display:flex;}
+  .navitem svg{width:24px;height:24px;}
+  .navitem span.label{font-size:9.5px; font-weight:700; letter-spacing:0.04em; color:var(--text-faint);}
+  .navitem.active{background:rgba(95,227,238,0.08);}
+  .navitem.active span.label{color:var(--cyan);}
+  .navitem.active svg{filter:drop-shadow(0 0 5px rgba(95,227,238,0.6));}
+  .navitem:not(.active) svg{opacity:0.55;}
+
+  /* ---------- CARDS / COMMON ---------- */
+  .card{
+    background:var(--bg-panel); border:1px solid var(--line); border-radius:var(--radius);
+    padding:14px; margin-bottom:12px; position:relative;
+  }
+  .card.green{border-left:3px solid #3ecf8e;}
+  .card.amber{border-left:3px solid var(--amber);}
+  .card.purple{border-left:3px solid #9b7ce8;}
+  .tag{
+    display:inline-flex; align-items:center; gap:4px; font-size:10px; font-weight:700;
+    padding:3px 9px; border-radius:20px; background:rgba(95,227,238,0.12); color:var(--cyan);
+    letter-spacing:0.03em;
+  }
+  .tag.rank-mutt{background:rgba(159,175,190,0.15); color:var(--text-dim);}
+  .tag.rank-pack{background:rgba(95,227,238,0.15); color:var(--cyan);}
+  .tag.rank-top{background:rgba(242,178,92,0.18); color:var(--amber);}
+  .row{display:flex; align-items:center; gap:10px;}
+  .row.between{justify-content:space-between;}
+  .avatar-sm{
+    width:42px;height:42px;border-radius:50%; flex-shrink:0;
+    background:linear-gradient(145deg,var(--cyan-deep),var(--ring-blue)); border:1.5px solid var(--cyan-dim);
+    display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;color:var(--cyan);font-size:14px;
+  }
+  .btn{
+    border:none; border-radius:12px; padding:9px 14px; font-weight:700; font-size:12px; cursor:pointer;
+    font-family:var(--font-body);
+  }
+  .btn-primary{background:var(--cyan); color:#04222a;}
+  .btn-ghost{background:transparent; border:1px solid var(--line); color:var(--text-dim);}
+  .btn-danger-outline{background:transparent;border:1px solid var(--danger); color:var(--danger);}
+  .toggle{
+    width:38px; height:22px; border-radius:20px; background:#1a3350; position:relative; cursor:pointer; flex-shrink:0;
+    border:1px solid var(--line);
+  }
+  .toggle.on{background:var(--cyan-deep); border-color:var(--cyan-dim);}
+  .toggle .knob{
+    position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:50%; background:var(--text-faint);
+    transition:left .15s, background .15s;
+  }
+  .toggle.on .knob{left:18px; background:var(--cyan);}
+  .toggle.locked{opacity:0.4; cursor:not-allowed;}
+  .divider{height:1px; background:var(--line); margin:10px 0; border:none;}
+  .chip-row{display:flex; gap:8px; overflow-x:auto; padding:2px 0 6px;}
+  .chip{
+    flex-shrink:0; font-size:11px; font-weight:600; padding:6px 12px; border-radius:16px;
+    background:var(--bg-panel-2); border:1px solid var(--line); color:var(--text-dim); white-space:nowrap; cursor:pointer;
+  }
+  .chip.active{background:rgba(95,227,238,0.15); color:var(--cyan); border-color:var(--cyan-dim);}
+
+  /* post media / nsfw states */
+  .blur-media{height:110px;border-radius:12px;background:linear-gradient(135deg,#1a3350,#0c1a2c);}
+  .nsfw-pending-overlay, .nsfw-tag-overlay{
+    position:absolute; inset:0; border-radius:12px; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; text-align:center; padding:10px; font-size:11px; color:#fff;
+  }
+  .nsfw-pending-overlay{background:rgba(4,10,18,0.72);}
+  .nsfw-tag-overlay{background:rgba(4,10,18,0.55);}
+
+  /* map view */
+  .map-wrap{position:relative; flex:1; min-height:520px;}
+  .map-canvas{
+    position:absolute; inset:0;
+    background:
+      radial-gradient(circle at 30% 20%, rgba(95,227,238,0.07), transparent 35%),
+      radial-gradient(circle at 75% 65%, rgba(47,107,147,0.16), transparent 40%),
+      repeating-linear-gradient(0deg, rgba(255,255,255,0.02) 0 1px, transparent 1px 42px),
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.02) 0 1px, transparent 1px 42px),
+      #0c1a2c;
+  }
+  .pin{
+    position:absolute; width:30px; height:30px; border-radius:50% 50% 50% 0; transform:rotate(-45deg);
+    display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,0.4);
+  }
+  .pin svg{transform:rotate(45deg); width:14px; height:14px;}
+  .pin.partner{background:var(--cyan);}
+  .pin.partner svg{color:#04222a;}
+  .pin.event{background:var(--amber);}
+  .pin.event svg{color:#331d02;}
+  .pin.haven{background:#9b7ce8;}
+  .pin.haven svg{color:#1c0f38;}
+  .pin-post-wrap{position:absolute; width:38px; height:38px; cursor:pointer;}
+  .post-avatar{
+    width:38px; height:38px; border-radius:50%;
+    background:linear-gradient(145deg,var(--cyan-deep),var(--ring-blue)); border:2px solid var(--cyan-dim);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-display); font-weight:700; color:var(--cyan); font-size:12px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.45);
+  }
+  .post-bubble-badge{
+    position:absolute; bottom:-3px; right:-4px; width:18px; height:18px; border-radius:50%;
+    background:var(--cyan); border:2px solid var(--bg-deep); display:flex; align-items:center; justify-content:center;
+  }
+  .post-bubble-badge svg{width:10px; height:10px; color:#04222a;}
+
+  /* bottom sheet */
+  .sheet-overlay{
+    position:absolute; inset:0; background:rgba(4,10,18,0.55); z-index:60; display:none;
+    align-items:flex-end; border-radius:40px; overflow:hidden;
+  }
+  .sheet-overlay.show{display:flex;}
+  .sheet{
+    width:100%; background:var(--bg-panel-2); border-top:1px solid var(--line);
+    border-radius:22px 22px 0 0; padding:10px 18px 24px; max-height:80%; overflow-y:auto;
+  }
+  .sheet-handle{width:40px; height:4px; background:var(--line); border-radius:4px; margin:4px auto 12px;}
+
+  /* dropdown panel */
+  .dropdown-panel{
+    position:absolute; top:56px; left:14px; width:230px; background:var(--bg-panel-2);
+    border:1px solid var(--line); border-radius:16px; padding:12px; z-index:70; display:none;
+    box-shadow:0 12px 30px rgba(0,0,0,0.5); max-height:340px; overflow-y:auto;
+  }
+  .dropdown-panel.show{display:block;}
+  .dropdown-panel .item{display:flex; align-items:center; justify-content:space-between; padding:9px 2px; font-size:12.5px; cursor:pointer;}
+  .dropdown-panel .item .label{color:var(--text);}
+  .dropdown-panel .sub-label{font-size:10px; color:var(--text-faint); margin-top:1px;}
+  .slider-track{height:4px; background:var(--line); border-radius:4px; position:relative; margin:8px 2px 4px;}
+  .slider-fill{position:absolute; top:0; left:0; height:100%; width:45%; background:var(--cyan); border-radius:4px;}
+  .slider-thumb{position:absolute; top:50%; left:45%; width:12px; height:12px; background:var(--cyan); border-radius:50%; transform:translate(-50%,-50%);}
+
+  .subsection-menu{
+    position:absolute; top:56px; right:14px; width:200px; background:var(--bg-panel-2);
+    border:1px solid var(--line); border-radius:14px; padding:6px; z-index:70; display:none;
+  }
+  .subsection-menu.show{display:block;}
+  .subsection-menu .opt{
+    padding:9px 10px; font-size:12.5px; border-radius:9px; cursor:pointer; color:var(--text-dim);
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .subsection-menu .opt.active{background:rgba(95,227,238,0.12); color:var(--cyan); font-weight:700;}
+
+  .segmented{display:flex; background:var(--bg-panel-2); border:1px solid var(--line); border-radius:14px; padding:3px; margin-bottom:14px;}
+  .segmented .seg{flex:1; text-align:center; padding:8px 0; font-size:12px; font-weight:700; border-radius:11px; cursor:pointer; color:var(--text-dim);}
+  .segmented .seg.active{background:var(--cyan); color:#04222a;}
+
+  .locked-note{font-size:10.5px; color:var(--text-faint); margin-top:6px; font-style:italic;}
+
+  /* ---------- PROFILE ---------- */
+  .profile-header{display:flex; flex-direction:column; align-items:center; text-align:center; padding:10px 0 6px;}
+  .profile-avatar-lg{
+    width:84px;height:84px;border-radius:50%;
+    background:linear-gradient(145deg,var(--cyan-deep),var(--ring-blue)); border:3px solid var(--cyan-dim);
+    display:flex;align-items:center;justify-content:center; font-family:var(--font-display); font-weight:700; font-size:28px;
+    color:var(--cyan); box-shadow:0 8px 20px rgba(95,227,238,.25);
+  }
+  .profile-name{font-family:var(--font-display); font-size:19px; margin-top:10px;}
+  .profile-handle{font-size:12px; color:var(--text-faint);}
+  .score-track{position:relative; height:10px; background:var(--bg-panel-2); border:1px solid var(--line); border-radius:10px;}
+  .score-fill{position:absolute; top:0; left:0; height:100%; background:linear-gradient(90deg,var(--cyan-deep),var(--cyan)); border-radius:10px;}
+  .score-ticks{display:flex; justify-content:space-between; margin-top:6px;}
+  .score-tick{font-size:9px; color:var(--text-faint); display:flex; flex-direction:column; align-items:center; gap:2px;}
+  .score-tick.reached{color:var(--cyan);}
+  .verify-row{display:flex; align-items:center; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--line);}
+  .verify-row:last-child{border-bottom:none;}
+  .photo-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:8px;}
+  .photo-tile{aspect-ratio:1; border-radius:10px; cursor:pointer; position:relative; overflow:hidden;}
+  .rate-badge{position:absolute; bottom:4px; right:4px; background:rgba(4,10,18,.6); border-radius:8px; padding:2px 6px; font-size:9px; color:#fff;}
+
+  /* ---------- REAL DEVICE / WRAPPED-APK MODE ---------- */
+  @media (max-width: 480px){
+    .side-note{ display:none; }
+    .stage{ padding:0; align-items:stretch; }
+    .phone{
+      width:100vw; height:100vh; height:100dvh;
+      border-radius:0; padding:0; box-shadow:none; background:var(--bg-deep);
+    }
+    .screen{ border-radius:0; }
+    .notch{ display:none; }
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+
+  <div class="phone">
+    <div class="screen" id="screen">
+      <div class="notch"></div>
+
+      <!-- STATUS BAR -->
+      <div class="status-row">
+        <span>9:41</span>
+        <span style="letter-spacing:0.1em;">●●●●</span>
+      </div>
+
+      <!-- TOP ACTION BAR -->
+      <div class="topbar">
+        <div class="topbar-left" id="topbarLeft">
+          <div class="avatar-btn" id="avatarBtn" onclick="toggleDropdown()">RK</div>
+          <div class="icon-btn" id="bellBtn" onclick="toggleNotifPanel()">
+            <span class="nav-dot" id="bellDot" style="top:6px; right:6px;"></span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" color="var(--text)"><path d="M6 8a6 6 0 1112 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 003.4 0"/></svg>
+          </div>
+          <div class="icon-btn" id="shopBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" color="var(--text)"><path d="M6 2l1.5 4h9L18 2"/><path d="M3.5 8h17l-1.4 11a2 2 0 01-2 1.7H6.9a2 2 0 01-2-1.7L3.5 8z"/><path d="M9 12a3 3 0 006 0"/></svg>
+          </div>
+        </div>
+        <div class="topbar-right" id="topbarRight">
+          <div class="icon-btn" id="createBtn" onclick="toggleCreateMenu()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          </div>
+          <div class="subsection-pill" id="subsectionPill" onclick="toggleSubMenu()">
+            <span id="subsectionLabel">Wall Feed</span>
+            <span class="dot-inline" id="pillDot" style="display:none;"></span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" color="var(--sky)"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+        </div>
+        <div class="profile-bar" id="profileBar">
+          <div class="icon-btn" onclick="closeProfileView()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          </div>
+          <span style="font-weight:700; font-size:13px; color:var(--text); font-family:var(--font-display); letter-spacing:0.03em;">Profile</span>
+          <div style="width:38px;"></div>
+        </div>
+      </div>
+
+      <!-- CREATE MENU (Post / Event / Secret) -->
+      <div class="dropdown-panel create-menu" id="createMenu">
+        <div class="item" onclick="closeCreateMenu(); openCompose('post')"><span class="label">Post</span><span style="color:var(--text-faint);">›</span></div>
+        <div class="item" onclick="closeCreateMenu(); openCompose('event')"><span class="label">Event</span><span style="color:var(--text-faint);">›</span></div>
+        <div class="item" onclick="closeCreateMenu(); openCompose('secret')"><span class="label">Secret</span><span style="color:var(--text-faint);">›</span></div>
+      </div>
+
+      <!-- NOTIFICATIONS -->
+      <div class="dropdown-panel notif-panel" id="notifPanel"></div>
+
+      <!-- DROPDOWN: avatar quick settings -->
+      <div class="dropdown-panel" id="dropdownPanel">
+        <div class="item" onclick="closeDropdown(); openProfile('rk')"><span class="label">My Profile</span><span style="color:var(--text-faint);">›</span></div>
+        <div class="item"><span class="label">Settings</span><span style="color:var(--text-faint);">›</span></div>
+        <hr class="divider">
+        <div class="item">
+          <div><div class="label">Global NSFW</div><div class="sub-label">Reach Pack Dawg to enable</div></div>
+          <div class="toggle locked"><div class="knob"></div></div>
+        </div>
+        <div class="item">
+          <div class="label">Allow DMs</div>
+          <div class="toggle on" onclick="event.stopPropagation(); this.classList.toggle('on')"><div class="knob"></div></div>
+        </div>
+        <div class="item">
+          <div class="label">Allow Flirts</div>
+          <div class="toggle on" onclick="event.stopPropagation(); this.classList.toggle('on')"><div class="knob"></div></div>
+        </div>
+        <hr class="divider">
+        <div class="sub-label" style="margin-bottom:6px;">Radius Adjustment · 32 mi</div>
+        <div class="slider-track"><div class="slider-fill"></div><div class="slider-thumb"></div></div>
+      </div>
+
+      <!-- SUBSECTION / FILTER MENU -->
+      <div class="subsection-menu" id="subMenu"></div>
+
+      <!-- CONTENT AREA -->
+      <div class="content" id="content"></div>
+
+      <!-- BOTTOM SHEET -->
+      <div class="sheet-overlay" id="sheetOverlay" onclick="if(event.target===this) closeSheet()">
+        <div class="sheet" id="sheetBody"></div>
+      </div>
+
+      <!-- BOTTOM NAV -->
+      <div class="bottomnav">
+        <div class="navitem active" data-tab="community" onclick="setTab('community')">
+          <div class="icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="1.8"><path d="M3 21h18M5 21V9l4-3v15M5 12h4M5 16h4M12 21V6l4-2.5V21M12 10h4M12 14h4M12 18h4M19 21v-7l-3-1.5"/></svg>
+            <span class="nav-dot" id="dot-community" style="top:-3px; right:-3px;"></span>
+          </div>
+          <span class="label">Community</span>
+        </div>
+        <div class="navitem" data-tab="pack" onclick="setTab('pack')">
+          <div class="icon-wrap">
+            <svg viewBox="0 0 48 48" fill="none" stroke="var(--text-faint)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 15c-1.5-4 0-8.5 2.5-9.5 1 2.5 1 5.5.3 8"/>
+              <path d="M33 15c1.5-4 0-8.5-2.5-9.5-1 2.5-1 5.5-.3 8"/>
+              <path d="M14.5 16c-2 3-2.3 7-1 10.5 1.6 4.2 5.2 7 10.5 7 5.6 0 9.5-3.2 11-8 1-3.3.6-6.7-1-9.5-1.7-3-4.8-5-9.9-5.2-4.6-.2-7.7 1.8-9.6 5.2z"/>
+              <path d="M24 20c2.2 0 4.4.6 5.8 1.8 1 .9 1.6 2 1.6 3.4 0 1.8-1 3.3-2.6 4.3-1.4.9-3 .1-3-1.5 0-1 .4-1.6.4-2.6 0-1.4-1-2-2.2-2s-2.2.6-2.2 2c0 1 .4 1.6.4 2.6 0 1.6-1.6 2.4-3 1.5-1.6-1-2.6-2.5-2.6-4.3 0-1.4.6-2.5 1.6-3.4C19.6 20.6 21.8 20 24 20z"/>
+              <path d="M18.5 18.5c1-.6 2.3-.6 3.2 0"/>
+              <path d="M26.3 18.5c1-.6 2.3-.6 3.2 0"/>
+            </svg>
+            <span class="nav-dot" id="dot-pack" style="top:-3px; right:-3px;"></span>
+          </div>
+          <span class="label">Pack</span>
+        </div>
+        <div class="navitem" data-tab="body" onclick="setTab('body')">
+          <div class="icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.8"><path d="M6 10c-1.5 0-2.5-1.2-2.5-2.5S4.5 5 6 5c1 0 1.8.6 2.2 1.4"/><path d="M8 6.5C8 4.6 9.6 3 11.5 3c1.6 0 2.9 1.1 3.3 2.6"/><path d="M15 5.6c.4-1.5 1.7-2.6 3.3-2.6C20.2 3 21.8 4.6 21.8 6.5c0 1.2-.6 2.2-1.5 2.9"/><path d="M4.5 11c-1 1.3-1.5 3-1.2 4.8.5 3 3.2 5.2 6.2 5.2h5c3 0 5.7-2.2 6.2-5.2.3-1.8-.2-3.5-1.2-4.8-1-1.3-2.7-2-4.4-1.7-1 .2-1.8.7-2.4 1.4-.6-.7-1.4-1.2-2.4-1.4-1.7-.3-3.4.4-4.4 1.7z"/><path d="M12 21v-6"/></svg>
+            <span class="nav-dot" id="dot-body" style="top:-3px; right:-3px;"></span>
+          </div>
+          <span class="label">Body</span>
+        </div>
+        <div class="navitem" data-tab="mind" onclick="setTab('mind')">
+          <div class="icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.7"><path d="M12 4c-2.2 0-3.8 1.5-4 3.4-1.3.4-2.3 1.6-2.3 3 0 .6.2 1.2.5 1.7-.6.6-1 1.4-1 2.3 0 1.6 1.2 2.9 2.7 3.1.2 1.5 1.5 2.5 3 2.5.6 0 1.1-.2 1.6-.4.4.3.9.4 1.5.4s1.1-.1 1.5-.4c.5.2 1 .4 1.6.4 1.5 0 2.8-1 3-2.5 1.5-.2 2.7-1.5 2.7-3.1 0-.9-.4-1.7-1-2.3.3-.5.5-1.1.5-1.7 0-1.4-1-2.6-2.3-3-.2-1.9-1.8-3.4-4-3.4z"/><path d="M12 4v16"/><path d="M9 8.5c.8 0 1.4.6 1.4 1.3M15 8.5c-.8 0-1.4.6-1.4 1.3M8.4 13c.7.3 1.6.1 2-.5M15.6 13c-.7.3-1.6.1-2-.5"/></svg>
+            <span class="nav-dot" id="dot-mind" style="top:-3px; right:-3px;"></span>
+          </div>
+          <span class="label">Mind</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="side-note">
+    <h3>How to use this prototype</h3>
+    Try tapping the bell (top-left) — notice the red dots cascade: <code>Pack</code> nav icon, then its pill, then <code>Top Contacts &amp; DMs</code> in the dropdown. Click a notification to jump straight there and clear just that dot.
+    <br><br>
+    On the Community map, tap MK's post pin, then tap <b>his avatar inside the post</b> (not the map bubble) to open his profile — rate his photos anonymously and watch his Reality Score tick up.
+    <br><br>
+    Try <b>🚩 Report NSFW</b> on any post or secret to see the pending-review / confirm flow. The <code>+</code> button now also offers <code>Secret</code> — choose Public to land anonymously in the Secrets Vault, or Private to keep it only on your own profile wall.
+  </div>
+
+</div>
+
+<script>
+/* ============================= DATA ============================= */
+function initials(name){ return name.split(' ').map(n=>n[0]).join(''); }
+
+const users = {
+  rk:{id:'rk', name:'Rory K.', handle:'@roryk', rank:'pack', rankLabel:'Pack Dawg', chapter:'Downtown Chapter', score:3.4,
+      bio:'Building the pack one meetup at a time. Trail runs, board games, and good coffee.',
+      tags:['Fitness','Board Games','Hiking'], badges:['Mentor','Fitness Discipline'],
+      idVerified:true, idRenewDays:210, stiVerified:true, stiRenewDays:18, realityScore:88, photos:4},
+  mk:{id:'mk', name:'Mo K.', handle:'@mo_k', rank:'pack', rankLabel:'Pack Dawg', chapter:'Downtown Chapter', score:4.1,
+      bio:"Trail runs & coffee. Say hi if you see me out.",
+      tags:['Running','Coffee','Photography'], badges:['Haven Host'],
+      idVerified:true, idRenewDays:340, stiVerified:true, stiRenewDays:5, realityScore:94, photos:5},
+  jt:{id:'jt', name:'Jax T.', handle:'@jaxt', rank:'pack', rankLabel:'Pack Dawg', chapter:'Downtown Chapter', score:4.6,
+      bio:'Leading the Saturday trail crew. Ask me about the route.',
+      tags:['Running','Mentorship'], badges:['Mentor','TopDawg'],
+      idVerified:true, idRenewDays:120, stiVerified:true, stiRenewDays:22, realityScore:97, photos:3},
+  mo:{id:'mo', name:'Mo R.', handle:'@mo_r', rank:'mutt', rankLabel:'Mutt', chapter:'Downtown Chapter', score:1.2,
+      bio:'New to the pack, still finding my footing.',
+      tags:['Movies'], badges:[],
+      idVerified:true, idRenewDays:300, stiVerified:false, stiRenewDays:0, realityScore:60, photos:2},
+  ak:{id:'ak', name:'Alex K.', handle:'@alexk_pack', rank:'pack', rankLabel:'Pack Dawg', chapter:'Downtown Chapter', score:3.8,
+      bio:'Gym rat, board game nerd.', tags:['Gym','Board Games'], badges:['Fitness Discipline'],
+      idVerified:true, idRenewDays:80, stiVerified:true, stiRenewDays:12, realityScore:91, photos:4},
+  rb:{id:'rb', name:'Ryan B.', handle:'@ryanb', rank:'mutt', rankLabel:'Mutt', chapter:'Downtown Chapter', score:0.8,
+      bio:'Just joined the pack.', tags:['Gaming'], badges:[],
+      idVerified:true, idRenewDays:350, stiVerified:false, stiRenewDays:0, realityScore:55, photos:2},
+  tl:{id:'tl', name:'Tori L.', handle:'@torilocal', rank:'pack', rankLabel:'Pack Dawg', chapter:'Downtown Chapter', score:3.0,
+      bio:'Coffee mornings & card games.', tags:['Coffee','Card Games'], badges:['Adaptive'],
+      idVerified:true, idRenewDays:150, stiVerified:true, stiRenewDays:9, realityScore:85, photos:3},
+  dv:{id:'dv', name:'Dev V.', handle:'@devv', rank:'top', rankLabel:'TopDawg', chapter:'Downtown Chapter', score:4.9,
+      bio:'Chapter lead. Ask me anything.', tags:['Leadership','Hiking'], badges:['TopDawg','Mentor'],
+      idVerified:true, idRenewDays:260, stiVerified:true, stiRenewDays:27, realityScore:99, photos:5}
+};
+
+let state = {
+  tab:'community', communityFilter:'all', packSub:'wall', bodySub:'diet', mindSub:'checklist',
+  rank:'mutt', // change to 'pack' to preview unlocked NSFW viewing
+  profileOpen:false, profileUser:null,
+  reportedPosts:{}, // id -> 'pending' | 'confirmed' | 'cleared'
+  lastSheetRefresh:null,
+  secrets:[
+    {id:'sec1', text:'I still practice my introduction speeches in the mirror before every meetup.', public:true, time:'3d ago', reactions:{heart:14,paw:6}, comments:['Sending you strength — you always seem so at ease!']},
+    {id:'sec2', text:"I've been scared to tell my chapter I'm moving away next month.", public:true, time:'6d ago', reactions:{heart:22,paw:9}, comments:[]}
+  ],
+  mySecret:{text:'Sometimes I fake being confident at meetups more than I let on.', visibility:'private'},
+  notifications:[
+    {id:1, tab:'pack', sub:'contacts', text:'Alex K. sent you a message', time:'2m', read:false},
+    {id:2, tab:'pack', sub:'wall', text:'Jax T. commented on your post', time:'25m', read:false},
+    {id:3, tab:'mind', sub:'checklist', text:'STI testing reminder due soon', time:'1h', read:false},
+    {id:4, tab:'community', sub:null, text:'New event posted nearby: Sunday Coffee Meetup', time:'3h', read:true}
+  ]
+};
+
+let pendingStar = 0;
+
+const communityFilters = [
+  {id:'all', label:'All'},
+  {id:'havens', label:'Pack Havens'},
+  {id:'partners', label:'Partners'},
+  {id:'events', label:'Events'}
+];
+const packSubs = [
+  {id:'wall', label:'Wall Feed'},
+  {id:'contacts', label:'Top Contacts & DMs'},
+  {id:'events', label:'Events List'},
+  {id:'havens', label:'Havens Directory'},
+  {id:'local', label:'Open Local Chat'}
+];
+const bodySubs = [
+  {id:'diet', label:'Diet & Nutrition'},
+  {id:'exercise', label:'Exercise & Movement'}
+];
+const mindSubs = [
+  {id:'checklist', label:'Checklist'},
+  {id:'wellbeing', label:'Well-Being'},
+  {id:'soundscapes', label:'Soundscapes'},
+  {id:'vault', label:'Secrets Vault'},
+  {id:'videos', label:'Videos'}
+];
+
+function subsFor(tab){
+  if(tab==='community') return communityFilters;
+  if(tab==='pack') return packSubs;
+  if(tab==='body') return bodySubs;
+  if(tab==='mind') return mindSubs;
+  return [];
+}
+function currentSubId(tab){
+  if(tab==='community') return state.communityFilter;
+  if(tab==='pack') return state.packSub;
+  if(tab==='body') return state.bodySub;
+  if(tab==='mind') return state.mindSub;
+}
+function setCurrentSub(tab, id){
+  if(tab==='community') state.communityFilter=id;
+  if(tab==='pack') state.packSub=id;
+  if(tab==='body') state.bodySub=id;
+  if(tab==='mind') state.mindSub=id;
+}
+function hasUnreadForTab(tab){ return state.notifications.some(n=>!n.read && n.tab===tab); }
+function hasUnreadForSub(tab, sub){ return state.notifications.some(n=>!n.read && n.tab===tab && n.sub===sub); }
+
+function svgIcon(name){
+  const icons = {
+    heart:'<path d="M12 20s-7-4.4-9.3-9C1.2 7.8 3 4 6.5 4c2 0 3.3 1.1 4 2.4.7-1.3 2-2.4 4-2.4C18 4 19.8 7.8 18.3 11c-2.3 4.6-9.3 9-9.3 9z"/>',
+    bolt:'<path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/>',
+    paw:'<circle cx="7" cy="8" r="1.6"/><circle cx="11.5" cy="5.5" r="1.6"/><circle cx="16" cy="8" r="1.6"/><path d="M12 12c-3 0-5.5 2-5.5 4.5S8.5 20 11 19c.6-.2 1-.2 1.6 0 2.4 1 5.5-.1 5.5-3S15 12 12 12z"/>',
+    bubble:'<path d="M12 3C6.5 3 2 6.6 2 11c0 2.5 1.4 4.7 3.6 6.2-.1.9-.5 2.1-1.4 3.3-.2.3 0 .7.4.6 2-.5 3.6-1.3 4.6-2 1 .3 2.1.4 2.8.4 5.5 0 10-3.6 10-8s-4.5-8-10-8z"/>',
+  };
+  return icons[name]||'';
+}
+
+/* ============================= RENDER ============================= */
+function render(){
+  const c = document.getElementById('content');
+
+  document.querySelectorAll('.navitem').forEach(n=>{
+    const tab = n.dataset.tab;
+    n.classList.toggle('active', tab===state.tab);
+    const svg = n.querySelector('svg');
+    svg.setAttribute('stroke', tab===state.tab ? 'var(--cyan)' : 'var(--text-faint)');
+    const dot = document.getElementById('dot-'+tab);
+    if(dot) dot.style.display = hasUnreadForTab(tab) ? 'block' : 'none';
+  });
+  document.getElementById('bellDot').style.display = state.notifications.some(n=>!n.read) ? 'block' : 'none';
+
+  if(state.profileOpen){
+    document.getElementById('topbarLeft').style.display='none';
+    document.getElementById('topbarRight').style.display='none';
+    document.getElementById('profileBar').classList.add('show');
+    c.innerHTML = renderProfile(state.profileUser);
+    renderNotifPanel();
+    return;
+  }
+  document.getElementById('topbarLeft').style.display='flex';
+  document.getElementById('topbarRight').style.display='flex';
+  document.getElementById('profileBar').classList.remove('show');
+
+  document.getElementById('subsectionLabel').textContent = subsFor(state.tab).find(s=>s.id===currentSubId(state.tab)).label;
+  document.getElementById('pillDot').style.display = hasUnreadForTab(state.tab) ? 'inline-block' : 'none';
+
+  if(state.tab==='community') c.innerHTML = communityView();
+  else if(state.tab==='pack') c.innerHTML = packView();
+  else if(state.tab==='body') c.innerHTML = bodyView();
+  else if(state.tab==='mind') c.innerHTML = mindView();
+
+  renderSubMenu();
+  renderNotifPanel();
+}
+
+function setTab(t){
+  state.tab=t; state.profileOpen=false;
+  closeSheet(); closeDropdown(); closeSubMenu(); closeCreateMenu(); closeNotifPanel();
+  render();
+}
+function refreshCurrentView(){
+  if(document.getElementById('sheetOverlay').classList.contains('show') && state.lastSheetRefresh){
+    state.lastSheetRefresh();
+  } else {
+    render();
+  }
+}
+
+/* ---------------- PROFILE ---------------- */
+function openProfile(userId){
+  state.profileOpen = true; state.profileUser = userId;
+  closeSheet(); closeDropdown(); closeSubMenu(); closeCreateMenu(); closeNotifPanel();
+  render();
+}
+function closeProfileView(){ state.profileOpen = false; render(); }
+
+function verifyRow(label, verified, renewDays, note){
+  return `<div class="verify-row">
+    <div>
+      <div style="font-size:12.5px; font-weight:700;">${label}</div>
+      <div style="font-size:10.5px; color:var(--text-faint); margin-top:2px;">${note}</div>
+    </div>
+    <div style="text-align:right;">
+      ${verified? `<span style="color:#3ecf8e; font-size:16px;">✓</span>` : `<span style="color:var(--danger); font-size:11px; font-weight:700;">Action Needed</span>`}
+      <div style="font-size:10px; color:var(--text-faint); margin-top:2px;">${verified? `Renews in ${renewDays}d` : 'Upload required'}</div>
+    </div>
+  </div>`;
+}
+
+function renderProfile(userId){
+  const u = users[userId];
+  const isSelf = userId==='rk';
+  const fillPct = (u.score/5*100).toFixed(0);
+  return `<div class="section-pad">
+    <div class="profile-header">
+      <div class="profile-avatar-lg">${initials(u.name)}</div>
+      <div class="profile-name">${u.name}</div>
+      <div class="profile-handle">${u.handle} · ${u.chapter}</div>
+      <span class="tag rank-${u.rank}" style="margin-top:8px;">${u.rankLabel}</span>
+    </div>
+
+    <div class="card">
+      <div class="row between"><div style="font-weight:700; font-size:13px;">Matrix Score</div><div style="font-family:var(--font-display); color:var(--cyan); font-weight:700;">${u.score.toFixed(1)} / 5.0</div></div>
+      <div class="score-track" style="margin-top:10px;"><div class="score-fill" style="width:${fillPct}%;"></div></div>
+      <div class="score-ticks">
+        ${[1,2,3,4,5].map(m=>`<div class="score-tick ${u.score>=m?'reached':''}">★<span>${m}</span></div>`).join('')}
+      </div>
+    </div>
+
+    ${isSelf? `
+    <div class="card">
+      <div style="font-weight:700; font-size:13px; margin-bottom:2px;">Verification Status</div>
+      ${verifyRow('ID Verification (AI Review)', u.idVerified, u.idRenewDays, 'Required to unlock and keep Pack Dawg status')}
+      ${verifyRow('STI / STD Testing', u.stiVerified, u.stiRenewDays, 'Monthly panel — reminder only, already confirmed')}
+    </div>` : `
+    <div class="card">
+      <div class="row between" style="font-size:12px; color:var(--text-dim);">
+        <span>✓ ID Verified</span><span>✓ Health Verified</span>
+      </div>
+    </div>`}
+
+    <div class="card">
+      <p style="font-size:13px; margin:0 0 10px;">${u.bio}</p>
+      <div class="chip-row">${u.tags.map(t=>`<div class="chip">${t}</div>`).join('')}</div>
+      ${u.badges.length? `<div class="row" style="gap:8px; margin-top:12px; flex-wrap:wrap;">${u.badges.map(b=>`<span class="tag">${b}</span>`).join('')}</div>`:''}
+    </div>
+
+    <div class="card">
+      <div class="row between">
+        <div style="font-weight:700; font-size:13px;">Photos</div>
+        <span style="font-size:11px; color:var(--text-faint);">Reality Score: ${u.realityScore}%</span>
+      </div>
+      <div class="photo-grid">
+        ${Array.from({length:u.photos}).map((_,i)=>`
+          <div class="photo-tile" style="background:linear-gradient(${135+i*20}deg, hsl(${190+i*8} 55% 22%), hsl(${190+i*8} 45% 12%));" ${isSelf?'':`onclick="openRatingSheet('${u.id}')"`}>
+            ${isSelf? '' : `<span class="rate-badge">Rate</span>`}
+          </div>`).join('')}
+      </div>
+      ${isSelf? `<p class="locked-note">Others can anonymously rate your photos — this feeds your Reality Score.</p>`:''}
+    </div>
+
+    ${isSelf? `
+    <div class="card purple">
+      <div style="font-weight:700; font-size:13px; margin-bottom:6px;">My Secrets</div>
+      <p style="font-size:12.5px; margin:0;">${state.mySecret.text}</p>
+      <span class="tag" style="margin-top:8px; background:rgba(155,124,232,.15); color:#9b7ce8;">Private — visible only on your wall</span>
+    </div>`:''}
+  </div>`;
+}
+
+function openRatingSheet(userId){
+  const u = users[userId];
+  pendingStar = 0;
+  showSheet(`
+    <h3 style="margin:2px 0 8px; font-family:var(--font-display); font-size:16px;">Rate This Photo</h3>
+    <p style="font-size:12px; color:var(--text-dim); margin-bottom:12px;">Your rating is anonymous and contributes to ${u.name.split(' ')[0]}'s Reality Score.</p>
+    <div class="row" style="justify-content:center; gap:10px; margin:14px 0;">
+      ${[1,2,3,4,5].map(n=>`<span onclick="pickStar(${n})" id="star-${n}" style="font-size:26px; cursor:pointer; color:var(--text-faint);">★</span>`).join('')}
+    </div>
+    <button class="btn btn-primary" style="width:100%;" onclick="submitRating('${userId}')">Submit Anonymously</button>
+  `);
+}
+function pickStar(n){
+  pendingStar = n;
+  for(let i=1;i<=5;i++){ document.getElementById('star-'+i).style.color = i<=n? 'var(--cyan)':'var(--text-faint)'; }
+}
+function submitRating(userId){
+  if(pendingStar>0){ users[userId].realityScore = Math.min(100, users[userId].realityScore + 1); }
+  closeSheet();
+  if(state.profileOpen && state.profileUser===userId) render();
+}
+
+/* ---------------- NOTIFICATIONS ---------------- */
+function renderNotifPanel(){
+  const p = document.getElementById('notifPanel');
+  p.innerHTML = state.notifications.map(n=>`
+    <div class="item" onclick="openNotification(${n.id})">
+      <div class="row" style="align-items:flex-start; gap:8px;">
+        <span style="width:7px; height:7px; margin-top:5px; flex-shrink:0;">${!n.read? '<span class="dot-inline"></span>':''}</span>
+        <div>
+          <div class="label" style="font-size:12px;">${n.text}</div>
+          <div class="sub-label">${n.time}</div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+function openNotification(id){
+  const n = state.notifications.find(x=>x.id===id);
+  if(!n) return;
+  n.read = true;
+  state.tab = n.tab;
+  if(n.sub) setCurrentSub(n.tab, n.sub);
+  state.profileOpen = false;
+  closeSheet(); closeDropdown(); closeSubMenu(); closeCreateMenu(); closeNotifPanel();
+  render();
+}
+
+/* ---------------- REPORTING ---------------- */
+function reportPost(id){ state.reportedPosts[id]='pending'; refreshCurrentView(); }
+function resolveReport(id, status){ state.reportedPosts[id]=status; refreshCurrentView(); }
+
+function postCard(opts){
+  const id = opts.id;
+  const reportState = state.reportedPosts[id];
+  const showNsfwOverlay = reportState==='confirmed' || (opts.autoNSFW && reportState!=='cleared');
+  const showPendingOverlay = reportState==='pending';
+  const blur = showNsfwOverlay || showPendingOverlay;
+
+  const authorBlock = opts.authorId ? (()=>{
+    const u = users[opts.authorId];
+    return `<div class="avatar-sm" style="cursor:pointer;" onclick="openProfile('${opts.authorId}')">${initials(u.name)}</div>
+      <div><div style="font-weight:700; font-size:13px;">${u.name} <span class="tag rank-${u.rank}">${u.rankLabel}</span></div><div style="font-size:11px; color:var(--text-faint);">${opts.time}</div></div>`;
+  })() : '';
+
+  let mediaBlock = '';
+  if(opts.image){
+    mediaBlock = `<div style="position:relative; margin-top:8px;">
+      <div class="blur-media" style="${blur?'filter:blur(8px);':''}"></div>
+      ${showPendingOverlay? `<div class="nsfw-pending-overlay">
+        <span>🚩 Reported — pending review</span>
+        <div class="row" style="gap:8px; margin-top:8px;">
+          <button class="btn btn-ghost" style="font-size:10.5px; padding:6px 10px;" onclick="resolveReport('${id}','cleared')">Not NSFW</button>
+          <button class="btn btn-danger-outline" style="font-size:10.5px; padding:6px 10px;" onclick="resolveReport('${id}','confirmed')">Confirm NSFW</button>
+        </div></div>` : ''}
+      ${(!showPendingOverlay && showNsfwOverlay)? `<div class="nsfw-tag-overlay">${state.rank==='mutt' ? '🔒 Reach Pack Dawg to view' : 'NSFW · Tap to reveal'}</div>` : ''}
+    </div>`;
+  }
+
+  const reportLink = reportState==='pending'
+    ? `<span style="font-size:10px; color:var(--amber);">🚩 Pending review</span>`
+    : reportState==='confirmed'
+      ? `<span style="font-size:10px; color:var(--danger);">NSFW Confirmed</span>`
+      : `<span style="font-size:10px; color:var(--text-faint); cursor:pointer;" onclick="reportPost('${id}')">🚩 Report NSFW</span>`;
+
+  return `<div class="card">
+    <div class="row between"><div class="row">${authorBlock}</div></div>
+    ${opts.text? `<p style="font-size:13px; margin:10px 0 8px;">${opts.text}</p>`:''}
+    ${mediaBlock}
+    <div class="row between" style="margin-top:10px;">
+      <div class="row" style="gap:14px; color:var(--text-faint); font-size:11px;"><span>♡ ${opts.hearts||0}</span><span>💬 ${opts.commentsCount||0}</span></div>
+      ${reportLink}
+    </div>
+  </div>`;
+}
+
+/* ---------------- SUBSECTION / FILTER MENU ---------------- */
+function renderSubMenu(){
+  const m = document.getElementById('subMenu');
+  const subs = subsFor(state.tab);
+  const curId = currentSubId(state.tab);
+  m.innerHTML = subs.map(p=>`<div class="opt ${p.id===curId?'active':''}" onclick="selectSub('${state.tab}','${p.id}')">
+    <span>${p.label}</span>${hasUnreadForSub(state.tab,p.id)? '<span class="dot-inline"></span>' : ''}
+  </div>`).join('');
+}
+function selectSub(tab, id){ setCurrentSub(tab, id); closeSubMenu(); render(); }
+
+/* ---------------- COMMUNITY ---------------- */
+function communityView(){
+  const f = state.communityFilter;
+  const show = (type) => f==='all' || f===type;
+  return `
+  <div class="map-wrap">
+    <div class="map-canvas"></div>
+    ${show('partners')? `<div class="pin partner" style="top:120px; left:60px;" onclick="openPin('partner')"><svg viewBox="0 0 24 24" fill="currentColor">${svgIcon('bolt')}</svg></div>` : ''}
+    ${show('events')? `<div class="pin event" style="top:210px; left:220px;" onclick="openPin('event')"><svg viewBox="0 0 24 24" fill="currentColor">${svgIcon('paw')}</svg></div>` : ''}
+    ${show('havens')? `<div class="pin haven" style="top:320px; left:110px;" onclick="openPin('haven')"><svg viewBox="0 0 24 24" fill="currentColor">${svgIcon('heart')}</svg></div>` : ''}
+    ${f==='all'? `
+    <div class="pin-post-wrap" style="top:255px; left:266px;" onclick="openPin('post')">
+      <div class="post-avatar">MK</div>
+      <div class="post-bubble-badge"><svg viewBox="0 0 24 24" fill="currentColor">${svgIcon('bubble')}</svg></div>
+    </div>` : ''}
+    ${show('partners')? `<div class="pin partner" style="top:400px; left:250px;" onclick="openPin('partner')"><svg viewBox="0 0 24 24" fill="currentColor">${svgIcon('bolt')}</svg></div>` : ''}
+  </div>`;
+}
+
+function openPin(type){
+  if(type==='post'){
+    state.lastSheetRefresh = ()=>openPin('post');
+    showSheet(`
+      <div style="font-size:11px; color:var(--text-faint); margin-bottom:6px;">Casual Map Post · Fuzzy 3–5mi radius</div>
+      ${postCard({id:'map-post-mk-1', authorId:'mk', time:'35m ago', text:'Perfect afternoon for a lakeside walk 🐾', image:true, hearts:14, commentsCount:3})}
+    `);
+    return;
+  }
+  let title, body;
+  if(type==='partner'){
+    title='Iron Paws Gym — Resource Partner';
+    body=`<p style="color:var(--text-dim); font-size:12.5px;">Verified partner venue. Weekly Gym Meetup · Tuesdays 7PM.</p>
+    <div class="row" style="gap:8px; margin-top:10px;"><button class="btn btn-primary">RSVP Meetup</button><button class="btn btn-ghost">View Venue</button></div>`;
+  } else if(type==='event'){
+    title='Sunday Coffee Meetup';
+    body=`<p style="color:var(--text-dim); font-size:12.5px;">Casual local event · Open invite · 6 attending.</p>
+    <div class="row" style="gap:8px; margin-top:10px;"><button class="btn btn-primary">RSVP</button><button class="btn btn-ghost">Invite</button></div>`;
+  } else {
+    title='Refresh Pass — Downtown Haven';
+    body=`<p style="color:var(--text-dim); font-size:12.5px;">Overnight sanctuary · Step-free access · Pets allowed.</p>
+    <div class="row" style="gap:8px; margin-top:10px;"><button class="btn btn-primary">View Haven</button></div>`;
+  }
+  state.lastSheetRefresh = null;
+  showSheet(`<h3 style="margin:2px 0 8px; font-family:var(--font-display); font-size:16px;">${title}</h3>${body}`);
+}
+
+/* ---------------- PACK ---------------- */
+function packView(){
+  if(state.packSub==='wall') return wallFeedView();
+  if(state.packSub==='contacts') return contactsView();
+  if(state.packSub==='events') return eventsListView();
+  if(state.packSub==='havens') return havensView();
+  if(state.packSub==='local') return localChatView();
+}
+
+function wallFeedView(){
+  return `<div class="section-pad">
+    <h1 class="page-title">Wall Feed</h1>
+    <p class="page-sub">Community posts, resource partner updates, and events</p>
+
+    ${postCard({id:'wp-jt-1', authorId:'jt', time:'2h ago · Downtown Chapter', text:"Led the Saturday trail run this morning — six of us out, great turnout. Who's in for next week?", hearts:24, commentsCount:6})}
+
+    <div class="card amber">
+      <div class="row between"><span class="tag" style="background:rgba(242,178,92,.15); color:var(--amber);">Resource Partner</span><span style="font-size:10px; color:var(--text-faint);">Sponsored</span></div>
+      <div style="font-weight:700; margin-top:6px; font-size:13px;">Iron Paws Gym — 20% off member sessions this week</div>
+      <p style="font-size:12px; color:var(--text-dim); margin:6px 0 0;">Weekly Gym Meetup · Every Tuesday 7PM</p>
+    </div>
+
+    ${postCard({id:'wp-mo-1', authorId:'mo', time:'5h ago', image:true, autoNSFW:true, hearts:8, commentsCount:2})}
+
+    <div class="card purple">
+      <div class="row between"><span class="tag" style="background:rgba(155,124,232,.15); color:#9b7ce8;">Event</span></div>
+      <div style="font-weight:700; margin-top:6px; font-size:13px;">Monthly Community Coffee Morning</div>
+      <p style="font-size:12px; color:var(--text-dim); margin:6px 0 10px;">Sat · 9:00 AM · Bluebird Café (Partner Venue)</p>
+      <button class="btn btn-primary">RSVP</button>
+    </div>
+  </div>`;
+}
+
+function contactsView(){
+  return `<div class="section-pad">
+    <h1 class="page-title">Top Contacts</h1>
+    <p class="page-sub">Messaging & rich chat engine</p>
+    <div class="chip-row">
+      <div class="avatar-sm" style="cursor:pointer;" onclick="openProfile('ak')">AK</div>
+      <div class="avatar-sm" style="cursor:pointer;" onclick="openProfile('rb')">RB</div>
+      <div class="avatar-sm" style="cursor:pointer;" onclick="openProfile('tl')">TL</div>
+      <div class="avatar-sm" style="cursor:pointer;" onclick="openProfile('dv')">DV</div>
+    </div>
+    ${contactRow('ak', true)}
+    ${contactRow('rb', false)}
+    ${contactRow('tl', true)}
+    ${contactRow('dv', false)}
+  </div>`;
+}
+function contactRow(userId, hosting){
+  const u = users[userId];
+  return `<div class="card" style="padding:10px 12px;">
+    <div class="row between">
+      <div class="row"><div class="avatar-sm" style="cursor:pointer;" onclick="openProfile('${userId}')">${initials(u.name)}</div>
+        <div><div style="font-weight:700; font-size:13px;">${u.name}</div><div style="font-size:11px; color:var(--text-faint);">${u.handle}</div></div>
+      </div>
+      <div class="row" style="gap:8px;">
+        ${hosting? `<div class="icon-btn" style="width:30px;height:30px;"><svg viewBox="0 0 24 24" stroke="var(--cyan)" fill="none" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></div>`:''}
+        <div class="icon-btn" style="width:30px;height:30px;">🔥</div>
+        <div class="icon-btn" style="width:30px;height:30px;">📌</div>
+        <div class="icon-btn" style="width:30px;height:30px;">✉️</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function eventsListView(){
+  return `<div class="section-pad">
+    <h1 class="page-title">Events</h1>
+    <div class="chip-row"><div class="chip active">Local</div><div class="chip">National</div><div class="chip active">Upcoming</div><div class="chip">Ongoing</div></div>
+    <div class="card">
+      <div style="font-weight:700; font-size:13px;">Weekly Gym Meetup</div>
+      <div style="font-size:11px; color:var(--text-faint); margin:4px 0 8px;">Tue · 7:00 PM · Iron Paws Gym</div>
+      <span class="tag">Going · 12</span>
+    </div>
+    <div class="card">
+      <div style="font-weight:700; font-size:13px;">Monthly Coffee Morning</div>
+      <div style="font-size:11px; color:var(--text-faint); margin:4px 0 8px;">Sat · 9:00 AM · Bluebird Café</div>
+      <span class="tag">Going · 8</span>
+    </div>
+    <div class="card amber">
+      <div class="row between"><div style="font-weight:700; font-size:13px;">Adult Play Event</div><span class="tag rank-pack">Pack Dawg+</span></div>
+      <div style="font-size:11px; color:var(--text-faint); margin:4px 0 8px;">Private address · Health-verified attendees only</div>
+      <span class="locked-note">Requires clean/undetectable status on file</span>
+    </div>
+  </div>`;
+}
+
+function havensView(){
+  return `<div class="section-pad">
+    <h1 class="page-title">Havens Directory</h1>
+    <p class="page-sub">Refresh Passes & Overnight Sanctuaries</p>
+    <div class="card">
+      <div class="row between"><div style="font-weight:700; font-size:13px;">Downtown Haven</div><span class="tag" style="background:rgba(155,124,232,.15); color:#9b7ce8;">Overnight</span></div>
+      <p style="font-size:12px; color:var(--text-dim); margin:8px 0;">Capacity 4 · Step-free access · Pets welcome</p>
+      <button class="btn btn-ghost">View Details</button>
+    </div>
+    <div class="card">
+      <div class="row between"><div style="font-weight:700; font-size:13px;">Riverside Refresh</div><span class="tag" style="background:rgba(95,227,238,.15); color:var(--cyan);">Day Pass</span></div>
+      <p style="font-size:12px; color:var(--text-dim); margin:8px 0;">Capacity 2 · Shower & rest suite</p>
+      <button class="btn btn-ghost">View Details</button>
+    </div>
+  </div>`;
+}
+
+function localChatView(){
+  return `<div class="section-pad">
+    <h1 class="page-title">Open Local Chat</h1>
+    <p class="page-sub">Live · Downtown Chapter</p>
+    <div class="card" style="padding:10px 12px;"><div style="font-size:12px;"><b style="color:var(--cyan);">Jax T.</b> anyone hitting the trail run sat?</div></div>
+    <div class="card" style="padding:10px 12px;"><div style="font-size:12px;"><b style="color:var(--cyan);">Mo R.</b> yes! what time</div></div>
+    <div class="card" style="padding:10px 12px;"><div style="font-size:12px;"><b style="color:var(--cyan);">Alex K.</b> 8am, meet at the north gate</div></div>
+  </div>`;
+}
+
+/* ---------------- BODY ---------------- */
+function bodyView(){
+  return `<div class="section-pad">
+    <h1 class="page-title">Body</h1>
+    <p class="page-sub">Physical mastery & customized health</p>
+    ${state.bodySub==='diet'? dietView() : exerciseView()}
+  </div>`;
+}
+function dietView(){
+  return `<div class="card">
+    <div style="font-weight:700; font-size:13px; margin-bottom:6px;">TopDawgs Approved Guidelines</div>
+    <p style="font-size:12px; color:var(--text-dim);">Baseline nutrition framework tailored to your goals.</p>
+  </div>
+  <div class="card green">
+    <div style="font-weight:700; font-size:13px; margin-bottom:6px;">Meal Plan Onboarding</div>
+    <p style="font-size:12px; color:var(--text-dim); margin-bottom:10px;">Answer a few questions to generate your custom meal plan.</p>
+    <button class="btn btn-primary">Start Questionnaire</button>
+  </div>`;
+}
+function exerciseView(){
+  return `<div class="card">
+    <div style="font-weight:700; font-size:13px; margin-bottom:6px;">Fitness Diagnostic</div>
+    <p style="font-size:12px; color:var(--text-dim); margin-bottom:10px;">Mobility, environment, and equipment — a few taps to tailor your routine.</p>
+    <button class="btn btn-primary">Start Diagnostic</button>
+  </div>
+  <div class="card">
+    <div class="row between"><div style="font-weight:700; font-size:13px;">Today's Routine</div><span class="tag">+0.1 Body</span></div>
+    <p style="font-size:12px; color:var(--text-dim); margin:8px 0;">Home · Bodyweight · 25 min</p>
+    <button class="btn btn-ghost">Log Complete</button>
+  </div>`;
+}
+
+/* ---------------- MIND ---------------- */
+function mindView(){
+  return `<div class="section-pad">
+    <h1 class="page-title">Mind</h1>
+    <p class="page-sub">Mental alignment, ethics & soundscapes</p>
+    ${mindContent()}
+  </div>`;
+}
+function mindContent(){
+  if(state.mindSub==='checklist') return `
+  <div class="card amber">
+    <div class="row between"><div style="font-weight:700; font-size:13px;">Full blood panel STD test</div><span class="tag" style="background:rgba(242,178,92,.15); color:var(--amber);">Due Soon</span></div>
+    <p style="font-size:12px; color:var(--text-dim); margin:8px 0;">Equal points to Body & Mind on completion. Free/low-cost clinics nearby.</p>
+    <button class="btn btn-ghost">Find Nearby Testing</button>
+  </div>
+  <div class="card">
+    <div class="row between"><div style="font-weight:700; font-size:13px;">Guided Meditation</div><span class="tag">+0.1 Mind</span></div>
+    <p style="font-size:12px; color:var(--text-dim); margin:8px 0;">10 min · Safety check-in included</p>
+    <button class="btn btn-ghost">Begin Session</button>
+  </div>
+  <div class="card">
+    <div style="font-weight:700; font-size:13px;">15-min stroll, no phone</div>
+    <p style="font-size:12px; color:var(--text-dim); margin:8px 0 0;">Daily grounding habit</p>
+  </div>`;
+
+  if(state.mindSub==='wellbeing') return `
+  <div class="card purple">
+    <span class="tag" style="background:rgba(155,124,232,.15); color:#9b7ce8;">Ethical Prompt</span>
+    <p style="font-size:13px; margin:8px 0 0;">A local brother confides he's struggling but asks you to keep it fully private, even from moderators. Where's the line between loyalty and looking out for his safety?</p>
+    <button class="btn btn-ghost" style="margin-top:10px;">Reflect & Respond</button>
+  </div>
+  <div class="card">
+    <div style="font-weight:700; font-size:13px; margin-bottom:6px;">Today's Inspiration</div>
+    <p style="font-size:13px; color:var(--text-dim); font-style:italic;">"Discipline is choosing between what you want now and what you want most."</p>
+  </div>`;
+
+  if(state.mindSub==='soundscapes') return `<div class="card">
+    <div style="font-weight:700; font-size:13px; margin-bottom:8px;">Ambient Engine</div>
+    <div class="chip-row"><div class="chip active">Rain</div><div class="chip">Brown Noise</div><div class="chip">Ocean</div><div class="chip">Forest</div></div>
+    <div class="row between" style="margin-top:10px;"><span style="font-size:12px; color:var(--text-dim);">Now Playing: Rain</span><span style="color:var(--cyan);">⏸</span></div>
+  </div>`;
+
+  if(state.mindSub==='vault') return `
+  <div class="card purple" style="text-align:center;">
+    <div style="font-weight:700; font-size:13px; margin-bottom:6px;">Share a Secret</div>
+    <p style="font-size:11.5px; color:var(--text-dim); margin:0;">Use the <b>+</b> button in the header — choose Public to share here anonymously, or Private to keep it only on your own profile wall.</p>
+  </div>
+  ${state.secrets.filter(s=>s.public).map(secretCard).join('')}`;
+
+  if(state.mindSub==='videos') return `<div class="card">
+    <div style="font-weight:700; font-size:13px;">Governance & Principles — Module 4</div>
+    <p style="font-size:12px; color:var(--text-dim); margin:8px 0;">14 min · Elevated point weighting</p>
+    <button class="btn btn-primary">Watch</button>
+  </div>`;
+}
+
+function secretCard(s){
+  const reportState = state.reportedPosts[s.id];
+  return `<div class="card purple">
+    <div class="row between">
+      <span class="tag" style="background:rgba(155,124,232,.15); color:#9b7ce8;">Anonymous Secret</span>
+      <span style="font-size:10px; color:var(--text-faint);">${s.time}</span>
+    </div>
+    <p style="font-size:13px; margin:10px 0 8px;">${s.text}</p>
+    <div class="row between">
+      <div class="row" style="gap:12px; font-size:12px; color:var(--text-dim);">
+        <span style="cursor:pointer;" onclick="reactSecret('${s.id}','heart')">🤍 ${s.reactions.heart}</span>
+        <span style="cursor:pointer;" onclick="reactSecret('${s.id}','paw')">🐾 ${s.reactions.paw}</span>
+        <span>💬 ${s.comments.length}</span>
+      </div>
+      ${reportState==='pending'? `<span style="font-size:10px;color:var(--amber);">🚩 Pending review</span>`
+        : reportState==='confirmed'? `<span style="font-size:10px;color:var(--danger);">Flagged</span>`
+        : `<span style="font-size:10px; color:var(--text-faint); cursor:pointer;" onclick="reportPost('${s.id}')">🚩 Report</span>`}
+    </div>
+    ${s.comments.map(c=>`<div style="margin-top:8px; padding-top:8px; border-top:1px solid var(--line); font-size:12px; color:var(--text-dim);"><b style="color:var(--sky);">Anonymous</b> ${c}</div>`).join('')}
+    <div class="row" style="gap:8px; margin-top:10px;">
+      <input placeholder="Leave encouragement..." id="commentInput-${s.id}" style="flex:1; background:var(--bg-elevated); border:1px solid var(--line); border-radius:10px; padding:8px 10px; color:var(--text); font-size:12px;">
+      <button class="btn btn-primary" style="padding:8px 12px;" onclick="addComment('${s.id}')">Send</button>
+    </div>
+  </div>`;
+}
+function reactSecret(id, type){
+  const s = state.secrets.find(x=>x.id===id);
+  s.reactions[type]++;
+  render();
+}
+function addComment(id){
+  const s = state.secrets.find(x=>x.id===id);
+  const input = document.getElementById('commentInput-'+id);
+  const val = input && input.value.trim();
+  s.comments.push(val && val.length ? val : "Sending you strength 💙");
+  render();
+}
+
+/* ---------------- SHEET / DROPDOWN / CREATE / COMPOSE ---------------- */
+function showSheet(html){
+  document.getElementById('sheetBody').innerHTML = `<div class="sheet-handle"></div>${html}`;
+  document.getElementById('sheetOverlay').classList.add('show');
+}
+function closeSheet(){ document.getElementById('sheetOverlay').classList.remove('show'); state.lastSheetRefresh = null; }
+
+function toggleDropdown(){
+  document.getElementById('dropdownPanel').classList.toggle('show');
+  closeSubMenu(); closeCreateMenu(); closeNotifPanel();
+}
+function closeDropdown(){ document.getElementById('dropdownPanel').classList.remove('show'); }
+
+function toggleSubMenu(){
+  document.getElementById('subMenu').classList.toggle('show');
+  closeDropdown(); closeCreateMenu(); closeNotifPanel();
+}
+function closeSubMenu(){ document.getElementById('subMenu').classList.remove('show'); }
+
+function toggleCreateMenu(){
+  document.getElementById('createMenu').classList.toggle('show');
+  closeDropdown(); closeSubMenu(); closeNotifPanel();
+}
+function closeCreateMenu(){ document.getElementById('createMenu').classList.remove('show'); }
+
+function toggleNotifPanel(){
+  document.getElementById('notifPanel').classList.toggle('show');
+  closeDropdown(); closeSubMenu(); closeCreateMenu();
+}
+function closeNotifPanel(){ document.getElementById('notifPanel').classList.remove('show'); }
+
+function setSecretVisibility(v){
+  document.getElementById('segPublic').classList.toggle('active', v==='public');
+  document.getElementById('segPrivate').classList.toggle('active', v==='private');
+  document.getElementById('secretNote').textContent = v==='public'
+    ? 'Publishes anonymously to the Secrets Vault in 3–10 days. Names, handles, and identifying details are auto-redacted.'
+    : 'Stays only on your own profile wall — never shown to anyone else, no delay.';
+}
+
+function openCompose(type){
+  const isEvent = type==='event';
+  const isSecret = type==='secret';
+  showSheet(`
+    <h3 style="margin:2px 0 10px; font-family:var(--font-display); font-size:16px;">${isEvent? 'Create Event' : isSecret? 'Share a Secret' : 'Create Post'}</h3>
+    <textarea placeholder="${isEvent? "What's the event about?" : isSecret? "What's weighing on you?" : "What's on your mind?"}" style="width:100%; height:70px; background:var(--bg-elevated); border:1px solid var(--line); border-radius:12px; padding:10px; color:var(--text); font-size:13px; resize:none;"></textarea>
+
+    ${isSecret? `
+    <div class="segmented" style="margin-top:12px;">
+      <div class="seg active" id="segPublic" onclick="setSecretVisibility('public')">Public (Anonymous)</div>
+      <div class="seg" id="segPrivate" onclick="setSecretVisibility('private')">Private (My Wall Only)</div>
+    </div>
+    <p class="locked-note" id="secretNote">Publishes anonymously to the Secrets Vault in 3–10 days. Names, handles, and identifying details are auto-redacted.</p>
+    ` : isEvent? `
+    <div class="row between" style="margin-top:12px;"><span style="font-size:12px; color:var(--text-dim);">Event Type</span><span class="tag">Casual Local</span></div>
+    <div class="row between" style="margin-top:8px;"><span style="font-size:12px; color:var(--text-dim);">Venue</span><span style="font-size:12px; color:var(--sky);">Select venue ›</span></div>
+    <div class="row between" style="margin-top:8px;"><span style="font-size:12px; color:var(--text-dim);">Date / Time</span><span style="font-size:12px; color:var(--sky);">Set schedule ›</span></div>
+    <div class="row between" style="margin-top:8px;"><span style="font-size:12px; color:var(--text-dim);">Capacity Limit</span><span style="font-size:12px; color:var(--sky);">No limit ›</span></div>
+    ` : `
+    <div class="row between" style="margin-top:10px;"><span style="font-size:12px; color:var(--text-dim);">📷 Media</span></div>
+    `}
+
+    <div class="row between" style="margin-top:10px;"><span style="font-size:12px; color:var(--text-dim);">Allow Comments</span><div class="toggle on"><div class="knob"></div></div></div>
+    <div class="row between" style="margin-top:8px;"><span style="font-size:12px; color:var(--text-dim);">Allow Reactions</span><div class="toggle on"><div class="knob"></div></div></div>
+    <button class="btn btn-primary" style="width:100%; margin-top:14px;">${isEvent? 'Create Event' : isSecret? 'Submit Secret' : 'Post'}</button>
+  `);
+}
+
+document.addEventListener('click', (e)=>{
+  if(!e.target.closest('#dropdownPanel') && !e.target.closest('#avatarBtn')) closeDropdown();
+  if(!e.target.closest('#subMenu') && !e.target.closest('#subsectionPill')) closeSubMenu();
+  if(!e.target.closest('#createMenu') && !e.target.closest('#createBtn')) closeCreateMenu();
+  if(!e.target.closest('#notifPanel') && !e.target.closest('#bellBtn')) closeNotifPanel();
+});
+
+render();
+</script>
+</body>
+</html>
