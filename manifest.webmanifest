@@ -1,0 +1,27 @@
+{
+  "name": "TopDawgs",
+  "short_name": "TopDawgs",
+  "description": "Find your pack. Move your body. Sharpen your mind. Interactive UI mockup built to Master Specification v14.0.",
+  "id": "topdawgs-mockup",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "fullscreen", "minimal-ui"],
+  "orientation": "portrait",
+  "background_color": "#09111E",
+  "theme_color": "#09111E",
+  "categories": ["social", "health", "lifestyle"],
+  "lang": "en-US",
+  "dir": "ltr",
+  "icons": [
+    { "src": "./favicon-32.png",         "sizes": "32x32",   "type": "image/png" },
+    { "src": "./icon-192.png",           "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./icon-512.png",           "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "./icon-maskable-512.png",  "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Community map", "short_name": "Map",  "url": "./?s=community", "icons": [{ "src": "./icon-192.png", "sizes": "192x192" }] },
+    { "name": "Pack messages", "short_name": "Pack", "url": "./?s=pack",      "icons": [{ "src": "./icon-192.png", "sizes": "192x192" }] },
+    { "name": "Mind checklist","short_name": "Mind", "url": "./?s=mind",      "icons": [{ "src": "./icon-192.png", "sizes": "192x192" }] }
+  ]
+}
