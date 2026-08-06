@@ -1,0 +1,15 @@
+{
+  "name": "TopDawgs",
+  "short_name": "TopDawgs",
+  "description": "TopDawgs mobile app prototype — Community, Pack, Body, Mind.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#070f19",
+  "theme_color": "#0b1826",
+  "icons": [
+    { "src": "assets/icons/icon-192.svg", "sizes": "192x192", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "assets/icons/icon-192.svg", "sizes": "512x512", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
