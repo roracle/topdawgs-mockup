@@ -1,464 +1,455 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no">
-<title>TopDawgs — Pack Up. Show Up.</title>
-<meta name="description" content="TopDawgs — a community, wellness, and pack-life app prototype.">
-<meta name="theme-color" content="#09111E">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="TopDawgs">
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icons/icon-180.png">
-<link rel="icon" href="icons/icon-32.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>TopDawgs Mobile App Prototype</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#09111E">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
 <body>
 
-<div class="desktop-stage">
-  <div class="desktop-brandmark"><img src="icons/icon-32.png" alt=""> <strong>TopDawgs</strong> · Prototype Shell</div>
+    <!-- Desktop Outer Container Wrapper -->
+    <div class="device-frame">
+        <div class="phone-notch"></div>
+        
+        <!-- Status Bar -->
+        <div class="phone-status-bar">
+            <span id="status-clock">09:41</span>
+            <div class="status-icons">
+                <span>5G</span>
+                <span>100%</span>
+            </div>
+        </div>
 
-  <div class="phone-shell" id="phoneShell">
+        <!-- Global Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <button class="icon-btn avatar-btn" id="avatar-menu-btn" title="User Menu">
+                    <div class="avatar-ring" id="header-avatar">👤</div>
+                </button>
+                <button class="icon-btn" id="shop-btn" title="Shop">🛍️</button>
+                <button class="icon-btn" id="notif-bell" title="Notifications">
+                    🔔<span class="bell-dot" id="bell-notif-dot"></span>
+                </button>
+            </div>
+            
+            <div class="header-right">
+                <button class="icon-btn create-btn" id="create-btn" title="Create New">+</button>
+                <div class="subsection-pill-wrapper">
+                    <button class="subsection-pill" id="subsection-pill-btn">
+                        <span id="pill-text">Community</span> ▾ <span class="pill-dot" id="pill-notif-dot">●</span>
+                    </button>
+                    <div class="dropdown-menu hidden" id="subsection-dropdown">
+                        <!-- Subsections dynamically populated by app.js -->
+                    </div>
+                </div>
+            </div>
+        </header>
 
-    <!-- Fake iOS-style status bar (hidden on real mobile / standalone PWA) -->
-    <div class="status-bar">
-      <span id="clock">9:41</span>
-      <div class="notch"></div>
-      <span class="status-icons">📶 📡 🔋100%</span>
+        <!-- User Dropdown Overlay Menu -->
+        <div class="user-menu-overlay hidden" id="user-menu-overlay">
+            <div class="user-menu-card">
+                <div class="user-menu-header">
+                    <h3>User Profile Menu</h3>
+                    <button class="close-btn" id="close-user-menu">✕</button>
+                </div>
+                <div class="user-menu-nav">
+                    <a href="#" id="menu-my-profile">My Profile</a> | 
+                    <a href="#" id="menu-settings">Settings</a>
+                </div>
+                <div class="toggle-row">
+                    <span>Global NSFW (Hookup)</span>
+                    <label class="switch">
+                        <input type="checkbox" id="toggle-global-nsfw">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <div class="toggle-row">
+                    <span>Allow DMs</span>
+                    <label class="switch">
+                        <input type="checkbox" id="toggle-allow-dms" checked>
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <div class="toggle-row">
+                    <span>Allow Flirts</span>
+                    <label class="switch">
+                        <input type="checkbox" id="toggle-allow-flirts" checked>
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <div class="toggle-row">
+                    <span>Incognito</span>
+                    <label class="switch">
+                        <input type="checkbox" id="toggle-incognito">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <div class="slider-row">
+                    <div class="slider-label">Blur Radius: <span id="radius-val">2.5 mi</span></div>
+                    <input type="range" min="0" max="5" step="0.5" value="2.5" id="radius-slider">
+                </div>
+                <div class="context-notif-box">
+                    <div class="context-title">Page Notification Control:</div>
+                    <div class="toggle-row">
+                        <span id="context-notif-label">Page notifications</span>
+                        <label class="switch">
+                            <input type="checkbox" id="toggle-page-notif" checked>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Dynamic Screen Container -->
+        <main class="app-screen" id="app-screen">
+            
+            <!-- VIEW 1: COMMUNITY MAP -->
+            <section class="view-section active" id="view-community">
+                <div class="map-controls">
+                    <button class="map-filter-btn" id="map-filter-trigger">Filter Map ▾</button>
+                    <div class="map-filter-menu hidden" id="map-filter-menu">
+                        <label><input type="checkbox" checked value="people"> People</label>
+                        <label><input type="checkbox" checked value="havens"> Havens</label>
+                        <label><input type="checkbox" checked value="events"> Events</label>
+                        <label><input type="checkbox" checked value="restaurants"> Restaurants</label>
+                        <label><input type="checkbox" checked value="gyms"> Gyms</label>
+                        <label><input type="checkbox" checked value="other"> Other</label>
+                    </div>
+                </div>
+                <div class="map-canvas" id="map-canvas">
+                    <!-- Map pins rendered by JS -->
+                </div>
+            </section>
+
+            <!-- VIEW 2: PACK -->
+            <section class="view-section" id="view-pack">
+                <!-- Messages Subsection -->
+                <div class="subview hidden" id="subview-pack-messages">
+                    <div class="dm-header">
+                        <div class="dm-recipient">
+                            <span class="headspace-icon" id="dm-headspace">👼</span>
+                            <strong id="dm-recipient-name">@AlphaMarcus</strong>
+                        </div>
+                        <span class="badge badge-cyan">DMs</span>
+                    </div>
+                    <div class="chat-stream" id="dm-stream">
+                        <div class="chat-bubble recipient">Hey man, grabbing food after the workout?</div>
+                        <div class="chat-bubble sender">Yeah sounds good! Meet at 6.</div>
+                    </div>
+                    <div class="chat-input-bar">
+                        <button class="icon-btn" id="dm-image-upload">🖼️</button>
+                        <input type="text" placeholder="Type a message..." id="dm-input">
+                        <button class="send-btn" id="dm-send-btn">➔</button>
+                    </div>
+                </div>
+
+                <!-- Chat Subsection -->
+                <div class="subview hidden" id="subview-pack-chat">
+                    <div class="chat-header">
+                        <strong># Chapter Chat (Port Arthur)</strong>
+                        <span class="badge badge-cyan">Public</span>
+                    </div>
+                    <div class="chat-stream" id="public-chat-stream">
+                        <div class="chat-bubble recipient"><strong>Dave:</strong> Who's hitting the gym today?</div>
+                        <div class="chat-bubble recipient"><strong>Dave:</strong> I'll be there at 5.</div>
+                        <div class="chat-bubble recipient"><strong>Dave:</strong> Let me know!</div>
+                    </div>
+                    <div class="cooldown-banner hidden" id="chat-cooldown-banner">
+                        ⏱️ Spam Filter Active: Wait 30s
+                    </div>
+                    <div class="chat-input-bar">
+                        <button class="icon-btn" id="chat-image-upload">🖼️</button>
+                        <input type="text" placeholder="Send public message..." id="public-chat-input">
+                        <button class="send-btn" id="public-chat-send-btn">➔</button>
+                    </div>
+                </div>
+
+                <!-- Wall Subsection -->
+                <div class="subview hidden" id="subview-pack-wall">
+                    <div class="feed-card">
+                        <div class="feed-header">
+                            <span class="feed-user">🐺 @PackLeader</span>
+                            <span class="feed-time">2h ago</span>
+                        </div>
+                        <p>Weekend Haven meetup is locked in! Check the Events tab for details.</p>
+                    </div>
+                </div>
+
+                <!-- Events Subsection -->
+                <div class="subview hidden" id="subview-pack-events">
+                    <div class="feed-card">
+                        <h3>🔥 Pack Beach Bonfire</h3>
+                        <p>Saturday @ 8:00 PM • Port Arthur Sanctuary</p>
+                        <button class="btn btn-primary">RSVP Now</button>
+                    </div>
+                </div>
+
+                <!-- Havens Subsection -->
+                <div class="subview hidden" id="subview-pack-havens">
+                    <div class="feed-card">
+                        <h3>🏡 Haven: Pine Retreat</h3>
+                        <p>Host: @AlphaMarcus • Overnight Pass Available</p>
+                        <button class="btn btn-secondary">Request Pass</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW 3: BODY -->
+            <section class="view-section" id="view-body">
+                <div class="subview hidden" id="subview-body-nutrition">
+                    <div class="stat-card">
+                        <h3>Daily Nutrition & Hydration</h3>
+                        <p>Calories: 2,100 / 2,800 kcal</p>
+                        <p>Water: 3.2L / 4.0L</p>
+                    </div>
+                </div>
+                <div class="subview hidden" id="subview-body-exercise">
+                    <div class="stat-card">
+                        <h3>Today's Workout Routine</h3>
+                        <ul>
+                            <li>✔ 100 Pushups</li>
+                            <li>✔ 50 Situps</li>
+                            <li>⏳ 5km Cardio Run</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW 4: MIND -->
+            <section class="view-section" id="view-mind">
+                <div class="subview hidden" id="subview-mind-checklist">
+                    <div class="card card-highlight" id="sti-reminder-card">
+                        <div class="card-header">
+                            <strong style="color:#38bdf8;">Mind Checklist Notification</strong>
+                            <span class="badge badge-red">NEW</span>
+                        </div>
+                        <p style="margin-top:6px;">"Time for your STI and Blood Panel Screen."</p>
+                        <button class="btn btn-primary" style="margin-top:8px;">Find Free/Cheap Local Clinics</button>
+                    </div>
+                </div>
+                <div class="subview hidden" id="subview-mind-modules">
+                    <div class="card">
+                        <h3>Self-Mastery Module 1</h3>
+                        <p>Mindset Foundations & Focus Training</p>
+                    </div>
+                </div>
+                <div class="subview hidden" id="subview-mind-sounds">
+                    <div class="card">
+                        <h3>Focus Soundscapes</h3>
+                        <button class="btn btn-secondary">▶ Play Deep Alpha Waves</button>
+                    </div>
+                </div>
+                <div class="subview hidden" id="subview-mind-secrets">
+                    <div class="card">
+                        <h3>Encrypted Locker 🔒</h3>
+                        <p>Timed Release Protocols Active</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW 5: USER PROFILE VIEW -->
+            <section class="view-section" id="view-profile">
+                <div class="profile-container">
+                    <div class="profile-avatar" id="profile-avatar-display">🐺</div>
+                    <div class="profile-handle" id="profile-handle-display">@AlphaMarcus</div>
+                    
+                    <!-- Spectrum Score Bar -->
+                    <div class="spectrum-bar-wrapper">
+                        <div class="spectrum-bar">
+                            <div class="spectrum-star" id="spectrum-star-icon" style="left: 70%;">⭐</div>
+                        </div>
+                    </div>
+
+                    <!-- Action Bar -->
+                    <div class="profile-action-bar">
+                        <button class="action-badge badge-cyan" id="action-chat">💬 Chat</button>
+                        <button class="action-badge badge-purple" id="action-flirt">🔥 Flirt</button>
+                        <button class="action-badge badge-amber" id="action-note">📝 Note</button>
+                        <button class="action-badge badge-red" id="action-block">🚫 Block</button>
+                    </div>
+
+                    <!-- Stats Grid Matrix -->
+                    <div class="card profile-stats-card">
+                        <strong style="color:#38bdf8;">Stats:</strong>
+                        <div id="sfw-stats-matrix">Age: 28 | Height: 6'1" | Weight: 185 lbs</div>
+                        <div id="nsfw-stats-matrix" class="hidden" style="color:#c084fc; margin-top:2px;">
+                            Position: Verse Top | Size: 7.5"
+                        </div>
+                    </div>
+
+                    <!-- Bio Boxes -->
+                    <div class="card bio-card">
+                        <strong style="color:#38bdf8;">About:</strong>
+                        <p id="profile-bio-text" contenteditable="false">Fitness enthusiast, local haven host, and heavy lifter. (Max 500 chars)</p>
+                    </div>
+                    <div class="card bio-card hidden" id="nsfw-bio-card">
+                        <strong style="color:#c084fc;">NSFW Bio:</strong>
+                        <p id="profile-nsfw-bio-text" contenteditable="false">Looking for active verse partners. (Max 500 chars)</p>
+                    </div>
+
+                    <!-- Health Toggles / Status -->
+                    <div class="health-status-row">
+                        <span style="color:#34d399;">✓ STI Tested: Clear</span>
+                        <span style="color:#38bdf8;">🔒 Safe Sex Only</span>
+                    </div>
+
+                    <!-- Image Gallery & In-App Camera -->
+                    <div class="gallery-section">
+                        <div class="gallery-grid">
+                            <div class="gallery-item" data-timestamp="August 2, 2026 at 14:22">🖼️</div>
+                            <div class="gallery-item" data-timestamp="July 28, 2026 at 09:15">🖼️</div>
+                        </div>
+                        <button class="btn btn-primary" id="in-app-camera-btn" style="margin-top:8px;">📷 Add Image (+0.01 Points)</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW 6: SETTINGS & ACCOUNT MANAGEMENT -->
+            <section class="view-section" id="view-settings">
+                <div class="card">
+                    <h3>Account Settings</h3>
+                    <div class="form-group">
+                        <label>Display Name</label>
+                        <input type="text" value="Alpha Marcus" id="settings-name-input">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" value="********">
+                    </div>
+
+                    <!-- Notification Settings -->
+                    <div class="form-group">
+                        <label>Notification Mode Style</label>
+                        <select id="notification-style-select" class="form-select">
+                            <option value="Both">Both (Bell & Proactive Dots)</option>
+                            <option value="Classic">Classic (Bell Icon Only)</option>
+                            <option value="Modern">Modern (Proactive Section Dots Only)</option>
+                        </select>
+                    </div>
+
+                    <button class="btn btn-secondary" id="view-blocked-btn" style="margin-top:10px;">View Blocked Users List</button>
+                    
+                    <div class="settings-actions">
+                        <button class="badge badge-amber" id="logout-btn">Log Out</button>
+                        <button class="badge badge-red" id="delete-acct-btn">Delete Account</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW 7: BLOCKED USERS MANAGEMENT -->
+            <section class="view-section" id="view-blocked-users">
+                <div class="card">
+                    <h3 style="color:#f87171;">Blocked Users List</h3>
+                    <div class="blocked-list" id="blocked-list-container">
+                        <div class="blocked-item">
+                            <span>@TrollUser99</span>
+                            <button class="badge badge-green unblock-btn">Unblock</button>
+                        </div>
+                        <div class="blocked-item">
+                            <span>@SpamBot12</span>
+                            <button class="badge badge-green unblock-btn">Unblock</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Bottom Navigation Bar -->
+        <nav class="app-bottom-nav">
+            <button class="nav-item active" data-target="view-community" id="nav-community">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l8-4v18M13 10h3l3 3v8M9 9h1M9 13h1M9 17h1M16 14h1M16 17h1"/></svg>
+                <span>Community</span>
+                <div class="notif-dot hidden" id="dot-community"></div>
+            </button>
+            <button class="nav-item" data-target="view-pack" id="nav-pack">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 18s-3 1.5-5 0c-1-.8-1.5-2-1.5-3.5L4 8l5 2 3-6 3 6 5-2-1.5 6.5c0 1.5-.5 2.7-1.5 3.5-2 1.5-5 0-5 0zM12 14v2M10 12h.01M14 12h.01"/></svg>
+                <span>Pack</span>
+                <div class="notif-dot" id="dot-pack"></div>
+            </button>
+            <button class="nav-item" data-target="view-body" id="nav-body">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 18v-4l2-4 3-1 2-5h3l1 3 3 1v3l-2 2v5M8 18v-3M16 18v-3M6 9l-2-2M18 10l2 2"/></svg>
+                <span>Body</span>
+                <div class="notif-dot hidden" id="dot-body"></div>
+            </button>
+            <button class="nav-item" data-target="view-mind" id="nav-mind">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5a3.5 3.5 0 0 0-3.5 3.5C7 8.5 5 10 5 12a3.5 3.5 0 0 0 3.5 3.5V19h7v-3.5A3.5 3.5 0 0 0 19 12c0-2-2-3.5-3.5-3.5A3.5 3.5 0 0 0 12 5zM12 5v14M8.5 12h7"/></svg>
+                <span>Mind</span>
+                <div class="notif-dot" id="dot-mind"></div>
+            </button>
+        </nav>
+
+        <!-- Slide to Block Security Modal -->
+        <div class="modal-overlay hidden" id="block-modal">
+            <div class="modal-card text-center">
+                <h3 style="color:#f87171;">Confirm Block User?</h3>
+                <p style="font-size:7pt; color:#cbd5e1; margin-top:4px;">
+                    Slide to block @AlphaMarcus. They will be disabled across all app views.
+                </p>
+                <div class="slide-track" id="slide-track">
+                    <div class="slide-thumb" id="slide-thumb">➔</div>
+                    <span class="slide-text">SLIDE TO BLOCK USER</span>
+                </div>
+                <button class="btn btn-secondary" id="close-block-modal" style="margin-top:10px;">Cancel</button>
+            </div>
+        </div>
+
+        <!-- Flirt Selector Modal -->
+        <div class="modal-overlay hidden" id="flirt-modal">
+            <div class="modal-card text-center">
+                <h3 style="color:#38bdf8;">Send Flirt to @AlphaMarcus</h3>
+                <p style="font-size:7pt; color:#cbd5e1; margin:4px 0;">Tier 1 Flirts (Standard):</p>
+                <div class="flirt-row">
+                    <span class="flirt-btn">☺️</span>
+                    <span class="flirt-btn">😉</span>
+                    <span class="flirt-btn">💖</span>
+                </div>
+                <div id="tier-2-container" class="hidden">
+                    <div style="border-top:1px solid #334155; margin:6px 0;"></div>
+                    <p style="font-size:7pt; color:#c084fc;">Tier 2 Flirts (Both in NSFW Mode):</p>
+                    <div class="flirt-row">
+                        <span class="flirt-btn">🥵</span>
+                        <span class="flirt-btn">🔥</span>
+                        <span class="flirt-btn">😈</span>
+                    </div>
+                </div>
+                <button class="btn btn-secondary" id="close-flirt-modal" style="margin-top:10px;">Close</button>
+            </div>
+        </div>
+
+        <!-- Photo Inspection Overlay -->
+        <div class="modal-overlay hidden" id="photo-preview-modal">
+            <div class="photo-preview-card">
+                <div class="photo-box">🖼️</div>
+                <div class="photo-timestamp" id="photo-timestamp-display">📅 Uploaded: August 2, 2026 at 14:22</div>
+                <button class="btn btn-secondary" id="close-photo-modal" style="margin-top:8px;">Close</button>
+            </div>
+        </div>
+
+        <!-- Notifications Drawer Modal -->
+        <div class="modal-overlay hidden" id="notif-drawer-modal">
+            <div class="modal-card">
+                <h3>Global Notifications</h3>
+                <ul class="notif-list">
+                    <li id="notif-item-mind"><strong>Mind:</strong> Time for STI Screening <span class="badge badge-red">NEW</span></li>
+                    <li id="notif-item-pack"><strong>Pack:</strong> @AlphaMarcus tagged you in a post</li>
+                </ul>
+                <button class="btn btn-secondary" id="close-notif-drawer" style="margin-top:10px;">Close</button>
+            </div>
+        </div>
+
     </div>
 
-    <!-- ============================== HEADER ============================== -->
-    <header class="app-header">
-      <div class="header-cluster">
-        <button class="avatar-btn" id="btnProfileMenu" aria-label="Open profile menu">
-          🐺
-          <span class="presence-dot" id="presenceDot"></span>
-        </button>
-        <button class="icon-btn" id="btnShop" aria-label="Shop">🛍️</button>
-        <button class="icon-btn" id="btnBell" aria-label="Notifications">
-          🔔
-          <span class="badge-dot" id="notifDot"></span>
-        </button>
-      </div>
-      <div class="header-cluster">
-        <button class="create-btn" id="btnCreate" aria-label="Create">+</button>
-        <button class="subsection-pill" id="btnSubsection">
-          <span id="subsectionLabel">Map</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-      </div>
-    </header>
-
-    <!-- ============================== SCREEN ============================== -->
-    <main class="app-screen" id="appScreen">
-
-      <!-- ---------- COMMUNITY ---------- -->
-      <section class="tab-view active" data-tab="community">
-
-        <div class="subview active" data-sub="map">
-          <h1 class="screen-title">Community</h1>
-          <p class="screen-sub">Port Arthur Chapter · <span id="radiusReadout">2 mi</span> radius</p>
-
-          <div class="filter-row" id="mapFilters">
-            <button class="filter-chip active" data-filter="people">👤 People</button>
-            <button class="filter-chip" data-filter="havens">🏠 Havens</button>
-            <button class="filter-chip" data-filter="events">🎟️ Events</button>
-            <button class="filter-chip" data-filter="restaurants">🍖 Restaurants</button>
-            <button class="filter-chip" data-filter="gyms">💪 Gyms</button>
-            <button class="filter-chip" data-filter="other">📍 Other</button>
-          </div>
-
-          <div class="map-wrap" id="mapWrap">
-            <div class="map-pin self" style="top:52%;left:48%;" data-name="You">
-              <div class="pulse"></div><div class="dot">🐺</div>
-            </div>
-            <div class="map-pin" style="top:28%;left:24%;" data-user="marcus"><div class="dot">🧔</div></div>
-            <div class="map-pin nsfw" style="top:22%;left:66%;" data-user="jax"><div class="dot">🐕</div></div>
-            <div class="map-pin" style="top:70%;left:70%;" data-user="theo"><div class="dot">🐻</div></div>
-            <div class="map-pin" style="top:64%;left:20%;" data-user="finn"><div class="dot">🦊</div></div>
-            <div class="map-pin nsfw" style="top:40%;left:82%;" data-user="rex"><div class="dot">🐕‍🦺</div></div>
-            <div class="map-me">📍 Port Arthur, TX</div>
-            <div class="map-radius-note">Blur: <span id="radiusReadout2">2 mi</span></div>
-          </div>
-
-          <div class="eyes-only-bar">
-            <div>
-              <div class="title">👁️ Eyes-Only Hookup Mode</div>
-              <div class="desc">Shows NSFW-flagged map avatars only when your Global NSFW is on.</div>
-            </div>
-            <button class="switch" id="switchEyesOnly" data-toggle="nsfw"></button>
-          </div>
-
-          <div class="section-label">Nearby Right Now</div>
-          <div id="nearbyList"></div>
-        </div>
-
-        <div class="subview" data-sub="list">
-          <h1 class="screen-title">Nearby List</h1>
-          <p class="screen-sub">Sorted by distance · filtered by your active tags</p>
-          <div id="nearbyListFull"></div>
-        </div>
-      </section>
-
-      <!-- ---------- PACK ---------- -->
-      <section class="tab-view" data-tab="pack">
-
-        <div class="subview active" data-sub="messages">
-          <h1 class="screen-title">Pack Messages</h1>
-          <p class="screen-sub">Direct messages respect your DM setting.</p>
-          <div class="thread-list" id="threadList"></div>
-        </div>
-
-        <div class="subview" data-sub="chat">
-          <div class="chat-window">
-            <div class="chat-header-bar">
-              <div>
-                <strong style="color:var(--success); font-family:var(--font-display); font-size:15px;"># Chapter Chat</strong>
-                <div class="meta-line">Port Arthur · 214 members</div>
-              </div>
-              <span class="pill pill-ghost">SFW only</span>
-            </div>
-            <div class="chat-log" id="chatLog">
-              <div class="bubble in">Dave: Who's hitting the gym today?</div>
-              <div class="bubble in">Dave: I'll be there at 5.</div>
-              <div class="bubble system">Marcus joined the chapter</div>
-              <div class="bubble in">Theo: Count me in, bringing Finn too.</div>
-              <div class="bubble out">See y'all there 🐾</div>
-            </div>
-            <div class="cooldown-banner hidden" id="cooldownBanner">⏱️ Spam filter active — wait <span id="cooldownSeconds">30</span>s</div>
-            <div class="chat-input-bar">
-              <span style="font-size:16px;">🖼️</span>
-              <input type="text" id="chatInput" placeholder="Message the chapter…" maxlength="240">
-              <button class="chat-send" id="chatSend">➔</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="subview" data-sub="wall">
-          <h1 class="screen-title">The Wall</h1>
-          <p class="screen-sub">Posts from your pack, newest first.</p>
-          <div id="wallList"></div>
-        </div>
-
-        <div class="subview" data-sub="events">
-          <h1 class="screen-title">Pack Events</h1>
-          <p class="screen-sub">RSVP and see who's showing up.</p>
-          <div id="eventsList"></div>
-        </div>
-
-        <div class="subview" data-sub="havens">
-          <h1 class="screen-title">Havens</h1>
-          <p class="screen-sub">Member-hosted safe spaces near you.</p>
-          <div id="havensList"></div>
-        </div>
-      </section>
-
-      <!-- ---------- BODY ---------- -->
-      <section class="tab-view" data-tab="body">
-
-        <div class="subview active" data-sub="nutrition">
-          <h1 class="screen-title">Nutrition</h1>
-          <p class="screen-sub">Today's fuel log.</p>
-          <div class="card card-glow">
-            <div class="ring-wrap">
-              <div class="ring" style="--pct:62;"><div class="ring-inner"><span class="n">1,860</span><span class="u">/ 3,000 kcal</span></div></div>
-              <div class="flex-1">
-                <div class="row-between"><span class="meta-line">Goal</span><span class="name-line">Lean bulk</span></div>
-                <div class="row-between"><span class="meta-line">Water</span><span class="name-line">6 / 10 cups</span></div>
-                <div class="row-between"><span class="meta-line">Streak</span><span class="name-line">🔥 9 days</span></div>
-              </div>
-            </div>
-            <div class="macro-row">
-              <div class="macro-chip"><div class="v">142g</div><div class="l">Protein</div></div>
-              <div class="macro-chip"><div class="v">190g</div><div class="l">Carbs</div></div>
-              <div class="macro-chip"><div class="v">64g</div><div class="l">Fat</div></div>
-            </div>
-          </div>
-          <div class="section-label">Logged Today</div>
-          <div class="card">
-            <div class="log-item"><span>🥣 Oats &amp; protein shake</span><span class="text-dim">520 kcal</span></div>
-            <div class="log-item"><span>🍗 Grilled chicken bowl</span><span class="text-dim">640 kcal</span></div>
-            <div class="log-item"><span>🥜 Trail mix</span><span class="text-dim">310 kcal</span></div>
-            <div class="log-item"><span>🍚 Rice &amp; salmon</span><span class="text-dim">390 kcal</span></div>
-          </div>
-          <button class="btn btn-primary btn-block" id="btnAddMeal">+ Log a meal</button>
-        </div>
-
-        <div class="subview" data-sub="exercise">
-          <h1 class="screen-title">Exercise</h1>
-          <p class="screen-sub">This week's training.</p>
-          <div class="card card-glow">
-            <div class="ring-wrap">
-              <div class="ring" style="--pct:75;"><div class="ring-inner"><span class="n">4</span><span class="u">/ 5 sessions</span></div></div>
-              <div class="flex-1">
-                <div class="row-between"><span class="meta-line">This week</span><span class="name-line">3h 40m</span></div>
-                <div class="row-between"><span class="meta-line">Pack Points</span><span class="name-line">+2.10</span></div>
-                <div class="row-between"><span class="meta-line">Rank climb</span><span class="name-line">🐾 Top 18%</span></div>
-              </div>
-            </div>
-          </div>
-          <div class="section-label">Session Log</div>
-          <div class="card">
-            <div class="log-item"><span>🏋️ Push day — Chest/Tri</span><span class="text-dim">52 min</span></div>
-            <div class="log-item"><span>🏃 Trail run — 4.2 mi</span><span class="text-dim">38 min</span></div>
-            <div class="log-item"><span>🧗 Climbing gym</span><span class="text-dim">1h 05m</span></div>
-            <div class="log-item"><span>🐕 Rest day walk w/ pack</span><span class="text-dim">25 min</span></div>
-          </div>
-          <button class="btn btn-primary btn-block" id="btnAddWorkout">+ Log a session</button>
-        </div>
-      </section>
-
-      <!-- ---------- MIND ---------- -->
-      <section class="tab-view" data-tab="mind">
-
-        <div class="subview active" data-sub="checklist">
-          <h1 class="screen-title">Checklist</h1>
-          <p class="screen-sub">Health &amp; STI reminders — private by default.</p>
-          <div class="card">
-            <div class="checklist-item"><div class="check-box checked">✓</div><div><div class="name-line">Quarterly STI panel</div><div class="meta-line">Completed 14 days ago · Body +0.5 · Mind +0.5</div></div></div>
-            <div class="checklist-item"><div class="check-box"></div><div><div class="name-line">Refill PrEP prescription</div><div class="meta-line">Due in 3 days</div></div></div>
-            <div class="checklist-item"><div class="check-box"></div><div><div class="name-line">Book annual physical</div><div class="meta-line">Not scheduled</div></div></div>
-            <div class="checklist-item"><div class="check-box checked">✓</div><div><div class="name-line">Update Safe-Sex status</div><div class="meta-line">Synced to profile</div></div></div>
-            <div class="checklist-item"><div class="check-box"></div><div><div class="name-line">Flu shot season reminder</div><div class="meta-line">Recommended by chapter clinic</div></div></div>
-          </div>
-          <div class="card" style="border-color:rgba(176,132,252,0.3);">
-            <div class="row-between">
-              <div>
-                <div class="setting-title">Show STI/STD results on my profile</div>
-                <div class="setting-desc">Off by default. Results are never public unless you enable this.</div>
-              </div>
-              <button class="switch" id="switchStiPublic"></button>
-            </div>
-          </div>
-        </div>
-
-        <div class="subview" data-sub="modules">
-          <h1 class="screen-title">Modules</h1>
-          <p class="screen-sub">Short video lessons on health, safety, and community.</p>
-          <div class="stats-matrix" style="grid-template-columns:1fr 1fr;">
-            <div class="card-tight card" style="margin-bottom:0;"><div class="module-thumb">🧘<span class="dur">6:12</span></div><div class="name-line" style="font-size:12px;">Grounding after a bad match</div></div>
-            <div class="card-tight card" style="margin-bottom:0;"><div class="module-thumb">🩺<span class="dur">4:40</span></div><div class="name-line" style="font-size:12px;">Know your status, know your options</div></div>
-            <div class="card-tight card" style="margin-bottom:0;"><div class="module-thumb">💬<span class="dur">5:05</span></div><div class="name-line" style="font-size:12px;">Consent &amp; communication basics</div></div>
-            <div class="card-tight card" style="margin-bottom:0;"><div class="module-thumb">🛡️<span class="dur">3:58</span></div><div class="name-line" style="font-size:12px;">Reading the room: safety on first meets</div></div>
-          </div>
-        </div>
-
-        <div class="subview" data-sub="sounds">
-          <h1 class="screen-title">Sounds</h1>
-          <p class="screen-sub">Ambient tracks to help you settle.</p>
-          <div class="card">
-            <div class="sound-item"><div class="wave" id="waveActive"><span></span><span></span><span></span><span></span><span></span></div><div class="grow"><div class="name-line">Den Fire — Low Crackle</div><div class="meta-line">Playing · 24:10</div></div><button class="icon-btn" data-sound-toggle style="background:transparent;">⏸️</button></div>
-            <div class="sound-item"><div class="wave paused"><span></span><span></span><span></span><span></span><span></span></div><div class="grow"><div class="name-line">Rainfall on the Ridge</div><div class="meta-line">42:00 loop</div></div><button class="icon-btn" data-sound-toggle style="background:transparent;">▶️</button></div>
-            <div class="sound-item"><div class="wave paused"><span></span><span></span><span></span><span></span><span></span></div><div class="grow"><div class="name-line">Pack Breathing — 4-7-8</div><div class="meta-line">Guided · 8:00</div></div><button class="icon-btn" data-sound-toggle style="background:transparent;">▶️</button></div>
-            <div class="sound-item"><div class="wave paused"><span></span><span></span><span></span><span></span><span></span></div><div class="grow"><div class="name-line">Night Trail Ambience</div><div class="meta-line">36:15 loop</div></div><button class="icon-btn" data-sound-toggle style="background:transparent;">▶️</button></div>
-          </div>
-        </div>
-
-        <div class="subview" data-sub="secrets">
-          <div id="vaultLockScreen" class="lock-screen">
-            <div class="icon">🔐</div>
-            <h1 class="screen-title mt-0">Secrets Vault</h1>
-            <p class="screen-sub">Encrypted, hidden storage. Enter your vault PIN.</p>
-            <div class="pin-dots" id="pinDots"><span></span><span></span><span></span><span></span></div>
-            <div class="pin-pad" id="pinPad">
-              <button data-num="1">1</button><button data-num="2">2</button><button data-num="3">3</button>
-              <button data-num="4">4</button><button data-num="5">5</button><button data-num="6">6</button>
-              <button data-num="7">7</button><button data-num="8">8</button><button data-num="9">9</button>
-              <button data-num="del">⌫</button><button data-num="0">0</button><button data-num="ok">🔓</button>
-            </div>
-            <p class="meta-line">Demo PIN: 1234</p>
-          </div>
-          <div id="vaultUnlocked" class="hidden">
-            <h1 class="screen-title">Secrets Vault</h1>
-            <p class="screen-sub">Only visible to you. Not part of your public gallery.</p>
-            <div class="gallery-grid">
-              <div class="vault-tile">📷<span class="lab">Locked</span></div>
-              <div class="vault-tile">🎞️<span class="lab">Locked</span></div>
-              <div class="vault-tile">📷<span class="lab">Locked</span></div>
-              <div class="vault-tile add" id="btnVaultAdd">+<span class="lab">Add</span></div>
-            </div>
-            <button class="btn btn-ghost btn-block" style="margin-top:14px;" id="btnLockVault">🔒 Lock vault now</button>
-          </div>
-        </div>
-      </section>
-
-    </main>
-
-    <!-- ============================== BOTTOM NAV ============================== -->
-    <nav class="bottom-nav">
-      <button class="nav-btn active" data-tab="community">
-        <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l8-4v18M13 10h3l3 3v8M9 9h1M9 13h1M9 17h1M16 14h1M16 17h1"/></svg></span>
-        <span class="nav-label">Community</span>
-      </button>
-      <button class="nav-btn" data-tab="pack">
-        <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 18s-3 1.5-5 0c-1-.8-1.5-2-1.5-3.5L4 8l5 2 3-6 3 6 5-2-1.5 6.5c0 1.5-.5 2.7-1.5 3.5-2 1.5-5 0-5 0zM12 14v2M10 12h.01M14 12h.01"/></svg></span>
-        <span class="nav-label">Pack</span>
-      </button>
-      <button class="nav-btn" data-tab="body">
-        <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 18v-4l2-4 3-1 2-5h3l1 3 3 1v3l-2 2v5M8 18v-3M16 18v-3M6 9l-2-2M18 10l2 2"/></svg></span>
-        <span class="nav-label">Body</span>
-      </button>
-      <button class="nav-btn" data-tab="mind">
-        <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5a3.5 3.5 0 0 0-3.5 3.5C7 8.5 5 10 5 12a3.5 3.5 0 0 0 3.5 3.5V19h7v-3.5A3.5 3.5 0 0 0 19 12c0-2-2-3.5-3.5-3.5A3.5 3.5 0 0 0 12 5zM12 5v14M8.5 12h7"/></svg></span>
-        <span class="nav-label">Mind</span>
-      </button>
-    </nav>
-
-    <div class="toast-stack" id="toastStack"></div>
-
-    <!-- ============================== OVERLAYS ============================== -->
-
-    <!-- Profile dropdown menu -->
-    <div class="overlay" id="overlayProfileMenu">
-      <div class="dropdown-panel profile-menu" id="profileMenuPanel">
-        <div class="menu-item link-item" id="menuMyProfile"><span class="left"><span class="ic">🐺</span>My Profile</span><span>›</span></div>
-        <div class="menu-item link-item" id="menuSettings"><span class="left"><span class="ic">⚙️</span>Settings</span><span>›</span></div>
-        <div class="menu-item"><span class="left"><span class="ic">🔥</span>Global NSFW</span><button class="switch" data-toggle="nsfw"></button></div>
-        <div class="menu-item"><span class="left"><span class="ic">✉️</span>Allow DMs</span><button class="switch" data-toggle="allowDMs"></button></div>
-        <div class="menu-item"><span class="left"><span class="ic">😉</span>Allow Flirts</span><button class="switch" data-toggle="allowFlirts"></button></div>
-        <div class="menu-item"><span class="left"><span class="ic">🕶️</span>Incognito</span><button class="switch" data-toggle="incognito"></button></div>
-        <div class="menu-item"><span class="left"><span class="ic">🔔</span><span id="ctxNotifLabel">Community Alerts</span></span><button class="switch" data-toggle="ctxNotif"></button></div>
-        <div style="padding:12px 2px 4px;">
-          <div class="row-between"><span class="setting-title">Radius</span><span class="meta-line" id="radiusValLabel">2 mi</span></div>
-          <div class="range-row"><input type="range" id="radiusSlider" min="0" max="5" step="0.5" value="2"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Notification drawer -->
-    <div class="overlay" id="overlayNotif">
-      <div class="dropdown-panel notif-drawer" id="notifDrawerPanel"></div>
-    </div>
-
-    <!-- Subsection dropdown -->
-    <div class="overlay" id="overlaySubsection">
-      <div class="dropdown-panel" id="subsectionPanel" style="top:64px; left:50%; transform:translateX(-50%); min-width:190px;"></div>
-    </div>
-
-    <!-- Creation modal -->
-    <div class="overlay" id="overlayCreate">
-      <div class="sheet">
-        <div class="sheet-handle"></div>
-        <div class="sheet-title">Create</div>
-        <div class="create-grid">
-          <button class="create-opt" id="createPost"><span class="ic">📝</span>Post</button>
-          <button class="create-opt" id="createEvent"><span class="ic">🎟️</span>Event</button>
-          <button class="create-opt" id="createSecret"><span class="ic">🔐</span>Secret</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Profile view sheet (self or other) -->
-    <div class="overlay" id="overlayProfile">
-      <div class="sheet" id="profileSheet" style="max-height:92%;"></div>
-    </div>
-
-    <!-- Flirt selector -->
-    <div class="overlay center" id="overlayFlirt">
-      <div class="modal-card" style="position:relative;">
-        <button class="close-x" data-close="overlayFlirt">✕</button>
-        <div class="sheet-title" style="margin-top:0;">Send a Flirt</div>
-        <div class="flirt-tier">
-          <div class="flirt-tier-label">Tier 1 · Always available</div>
-          <div class="flirt-emojis">
-            <button class="flirt-emoji" data-flirt="☺️">☺️</button>
-            <button class="flirt-emoji" data-flirt="😉">😉</button>
-            <button class="flirt-emoji" data-flirt="💖">💖</button>
-          </div>
-        </div>
-        <div class="flirt-tier">
-          <div class="flirt-tier-label">Tier 2 · NSFW mode required (both parties)</div>
-          <div class="flirt-emojis" id="flirtTier2">
-            <button class="flirt-emoji" data-flirt="🥵">🥵</button>
-            <button class="flirt-emoji" data-flirt="🔥">🔥</button>
-            <button class="flirt-emoji" data-flirt="😈">😈</button>
-          </div>
-          <div class="flirt-locked-note hidden" id="flirtLockedNote">Turn on Global NSFW (Pack Dawg rank or higher) to unlock — this match also needs their NSFW mode on.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Slide-to-confirm block modal -->
-    <div class="overlay center" id="overlayBlock">
-      <div class="modal-card" style="position:relative;">
-        <button class="close-x" data-close="overlayBlock">✕</button>
-        <div style="font-size:34px; text-align:center;">🚫</div>
-        <div class="sheet-title" style="text-align:center;">Block <span id="blockUserName">this user</span>?</div>
-        <p class="screen-sub text-center">They won't be notified. They'll disappear from your maps, chats, and search — instantly and safely.</p>
-        <div class="slide-track-lg" id="slideTrack">
-          <div class="slide-fill" id="slideFill"></div>
-          <div class="slide-label" id="slideLabel">Slide to confirm block</div>
-          <div class="slide-thumb-lg" id="slideThumb">➜</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Photo inspection -->
-    <div class="overlay center" id="overlayPhoto">
-      <div class="modal-card" style="position:relative; width:82%;">
-        <button class="close-x" data-close="overlayPhoto">✕</button>
-        <div class="photo-view" id="photoViewEmoji">🖼️</div>
-        <div class="photo-meta"><span>Uploaded</span><span id="photoTimestamp">Aug 2, 2026 · 7:14 PM</span></div>
-      </div>
-    </div>
-
-    <!-- Camera simulator -->
-    <div class="overlay center" id="overlayCamera">
-      <div class="modal-card" style="position:relative;">
-        <button class="close-x" data-close="overlayCamera">✕</button>
-        <div class="sheet-title" style="text-align:center;">Add a Photo</div>
-        <div class="camera-view"><span id="cameraEmoji">📷</span><div class="frame-corners"></div></div>
-        <button class="shutter-btn" id="btnShutter"></button>
-        <p class="meta-line text-center" style="margin-top:10px;">Daily upload bonus: <strong style="color:var(--accent-2);">+0.01</strong> Pack Points</p>
-      </div>
-    </div>
-
-    <!-- Settings full screen -->
-    <div class="overlay center" id="overlaySettings" style="align-items:stretch; justify-content:stretch;">
-      <div class="sheet" style="height:100%; border-radius:0; max-height:100%;">
-        <div class="row-between" style="padding:4px 0 12px;">
-          <button class="icon-btn" data-close="overlaySettings" style="background:var(--surface-2);">←</button>
-          <div class="sheet-title" style="margin:0;">Settings</div>
-          <div style="width:36px;"></div>
-        </div>
-
-        <div class="section-label">Account</div>
-        <div class="card">
-          <div class="setting-row row-between"><div><div class="setting-title">Rank</div><div class="setting-desc">Pack Points determine your climb.</div></div><span class="rank-badge">🐾 Pack Dawg</span></div>
-          <div class="setting-row row-between"><div><div class="setting-title">ID Verification</div><div class="setting-desc">18+ verified via government ID.</div></div><span class="pill pill-green">Verified</span></div>
-        </div>
-
-        <div class="section-label">Privacy &amp; Discovery</div>
-        <div class="card">
-          <div class="setting-row row-between"><div><div class="setting-title">Global NSFW</div><div class="setting-desc">Rank-gated. Filters maps &amp; feeds to adult content, both ways.</div></div><button class="switch" data-toggle="nsfw"></button></div>
-          <div class="setting-row row-between"><div><div class="setting-title">Allow DMs</div><div class="setting-desc">Let other members message you directly.</div></div><button class="switch" data-toggle="allowDMs"></button></div>
-          <div class="setting-row row-between"><div><div class="setting-title">Allow Flirts</div><div class="setting-desc">Let others send flirt signals to your profile.</div></div><button class="switch" data-toggle="allowFlirts"></button></div>
-          <div class="setting-row row-between"><div><div class="setting-title">Incognito</div><div class="setting-desc">Hide your presence and browsing from the map.</div></div><button class="switch" data-toggle="incognito"></button></div>
-          <div class="setting-row">
-            <div class="row-between"><div class="setting-title">Location Radius Blur</div><span class="meta-line" id="radiusValLabel2">2 mi</span></div>
-            <div class="range-row"><input type="range" id="radiusSlider2" min="0" max="5" step="0.5" value="2"></div>
-          </div>
-        </div>
-
-        <div class="section-label">Health Privacy</div>
-        <div class="card">
-          <div class="setting-row row-between"><div><div class="setting-title">Show STI/STD results on profile</div><div class="setting-desc">Never public unless you turn this on.</div></div><button class="switch" data-toggle="stiPublic"></button></div>
-        </div>
-
-        <div class="section-label">Blocked Users</div>
-        <div class="card" id="blockedUsersCard"></div>
-
-        <button class="btn btn-danger btn-block" style="margin-top:16px;" id="btnLogout">Log out</button>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<script src="app.js"></script>
+    <script src="app.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+    </script>
 </body>
 </html>
