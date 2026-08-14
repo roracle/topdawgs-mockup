@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TopDawgs</title>
+<meta name="description" content="TopDawgs — interactive prototype">
+<link rel="icon" href="assets/logo.webp">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="app-root">
+
+  <!-- ===================== LOGIN ===================== -->
+  <div id="login-screen" class="login-screen">
+    <div class="login-logo"><img src="assets/logo.webp" alt="TopDawgs"></div>
+    <div class="login-title">TopDawgs</div>
+    <div class="login-tag">Find your pack.</div>
+
+    <div class="login-form">
+      <div class="field">
+        <label for="login-username">Username</label>
+        <input id="login-username" type="text" value="AlphaDawg" autocomplete="username">
+      </div>
+      <div class="field">
+        <label for="login-password">Password</label>
+        <input id="login-password" type="password" placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <button class="btn btn-primary btn-block" onclick="doLogin(false)">Log in</button>
+      <button class="btn btn-ghost btn-block" onclick="doLogin(true)">Explore as an unverified Mutt</button>
+    </div>
+
+    <div class="login-hint">Interactive prototype — any password works. Logging in gives you a verified <b>Pack Dawg</b> account. The Mutt option shows the restricted view: NSFW locked off, explicit media blocked, Tier&nbsp;2 flirts unavailable.</div>
+  </div>
+
+  <!-- ===================== APP SHELL ===================== -->
+  <div id="app-shell" class="hidden app-shell">
+    <header id="app-header" class="app-header"></header>
+    <main id="app-main" class="app-main"></main>
+    <nav id="bottom-nav" class="bottom-nav"></nav>
+  </div>
+
+  <div id="toast"></div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/icons.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
